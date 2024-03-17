@@ -1,0 +1,94 @@
+:root{
+    --white-color:#fff;
+    --black-color:#090101;
+    --text-color:#333;
+    --prim-color:#d0011b;
+    --brand-primary-light-color:rgba(208,1,27,0.08);
+    --orange-color: #ff5a00;
+    --nau-color:#667580;
+    --head-height:34px;
+    --app-height:120px;
+    --button-height: calc(var(--app-height) - var(--head-height));
+    --importain--color: #667580;
+    --nen--color:#e7ecf0;
+}
+*{
+    box-sizing: inherit;
+}
+html,body{
+    font-size: 62.5%;
+    line-height: 1.6rem;
+    font-family: 'Roboto', sans-serif/*chủng chữ không có chÂN*/;
+    box-sizing: border-box;
+    margin: 0px;
+
+}
+.contanier{
+    background-color: var(--nen--color);
+    text-align: center;
+    padding-top: 10px;
+}
+.header-home{
+display: flex;
+justify-content: space-between;
+align-items: center;
+height: 57px;
+box-shadow: 0px 1px 5px 2px rgb(191, 211, 222);
+padding: 5px 150px 10px 150px;
+background-color: #fff;
+
+
+}
+.container__avatar{
+    width: 30px;
+    height: 40px;
+}
+.container-div{
+    border: 2px solid rgb(169, 169, 255);
+    width: 200px;
+    margin: auto;
+    min-height: 200px;
+}
+.container-div-header{
+    min-height: 50px;
+    width: 100%;
+    background-color: #46de62;
+    margin-bottom: 10px;
+}
+.container-div-header--h1{
+    margin: 0px;
+    font-family: 'Courier New', Courier, monospace;
+    color: #fff;
+    text-shadow: 2px 2px 4px #000000;
+    line-height: 40px;
+}
+.header-home__3--dropdown-element--1-span{
+    font-size: 7px;
+    background-color: #66e358;
+    padding: 5px;
+    color: #fff;
+    border: 1px solid rgb(205, 206, 205);
+    border-radius: 10px;
+    margin-bottom: 5px;
+}
+.header-home__3--dropdown-element--1-span-false{
+    font-size: 7px;
+    background-color: #e94030;
+    padding: 5px;
+    color: #fff;
+    border: 1px solid rgb(205, 206, 205);
+    border-radius: 10px;
+    margin-bottom: 5px;
+}
+.nav-right__dangkihocphan-a{
+    text-decoration: none;
+}
+.header-home__3--dropdown-element--1{
+    padding: 15px 10px;
+    border-bottom: 1px solid #e7ecf0;
+}
+.input-none{
+     border-style: none;
+         background-color: #fff;
+         color: #667580;
+ }

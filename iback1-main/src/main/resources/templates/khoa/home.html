@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+</head>
+<body>
+<form action="#" th:action="@{/logout}" method="POST">
+    <!--                                <div class="head__item-user-inner&#45;&#45;item">-->
+    <!--                                <input type="submit" class="btn btn-info" value="Đăng xuất"/>-->
+    <button type="submit" class="head__item-user-inner--item" style="    border-top-color: currentcolor;
+    border-bottom-style: none; border-right-style: none;border-left-style: none;" >Đăng xuất </button>
+</form>
+Xin chào<b><span sec:authentication="principal.username" ></span></b>
+<span sec:authentication="principal.authorities" ></span>
+<button class="btn btn-info" sec:authorize="hasAnyRole('ADMIN','MANAGER')" >
+    <a th:href="@{/khoa/create}" class="btn btn-info btn-sm " >
+        Thêm
+    </a>
+</button>
+<!--<button class="btn btn-success" sec:authorize="hasRole('USER')" onclick="addRow()">-->
+<!--    <a th:href="@{/user/update/(username=${principal.username})}" class="btn btn-info btn-sm " >-->
+<!--        Update information-->
+<!--    </a>-->
+<!--</button>-->
+
+<!--                                </div>-->
+
+<div class="container"  >
+    <h1>Faculty</h1>
+    <table id="classTable"  class="table table-dark table-striped-columns table-hover">
+        <tr class="table-success">
+            <th>Faculty code</th>
+            <th>Faculty name</th>
+            <th>Edit</th>
+            <!-- Add more columns for other class attributes -->
+        </tr>
+        <tr th:each="khoa : ${khoaList}" class="table-success">
+            <td th:text="${khoa.maKhoa}"></td>
+            <td th:text="${khoa.tenKhoa}"></td>
+            <td>
+
+                <button class="btn btn-warning" sec:authorize="hasRole('ADMIN')" >
+                    <a th:href="@{/khoa/delete(id=${khoa.maKhoa})}" class="btn btn-warning btn-sm " >
+                        Delete
+                    </a>
+                </button>
+                <button class="btn btn-warning" sec:authorize="hasRole('ADMIN')" >
+                    <a th:href="@{/khoa/showPageUpdate(id=${khoa.maKhoa})}" class="btn btn-warning btn-sm " >
+                        Update
+                    </a>
+                </button>
+<!--                <button class="btn btn-warning" sec:authorize="hasRole('ADMIN')" >-->
+<!--                    <a th:href="@{/specialization/update-khoa(id=${khoa.maKhoa})}" class="btn btn-warning btn-sm " >-->
+<!--                        Choose-->
+<!--                    </a>-->
+<!--                </button>-->
+                <button class="btn btn-warning" sec:authorize="hasRole('ADMIN')" th:object="${specialization}" th:if="${specialization != null}">
+                <form  th:action="@{/specialization/update-khoa(id=${khoa.maKhoa})}" method="post" >
+                                                    <!-- Your form fields here -->
+                    <div >
+                        <input type="hidden" th:field="*{specializedCode}"/>
+                        <input type="hidden" th:field="*{specializedName}"/>
+                        <input type="hidden" th:field="*{numberOfCredits}"/>
+                    </div>
+                    <input type="submit" value="Choose" class="btn btn-sm "/>
+                </form>
+                </button>
+                <button class="btn btn-warning" sec:authorize="hasRole('ADMIN')" th:object="${lop}" th:if="${lop != null}">
+                    <form  th:action="@{/lop/update-khoa(id=${khoa.maKhoa})}" method="post" >
+                        <!-- Your form fields here -->
+                        <div >
+                            <input type="hidden" th:field="*{maLop}"/>
+                            <input type="hidden" th:field="*{tenLop}"/>
+                            <input type="hidden" th:field="*{specialization}"/>
+                            <input type="hidden" th:field="*{staff}"/>
+                        </div>
+                        <input type="submit" value="Choose" class="btn btn-sm "/>
+                    </form>
+                </button>
+                <button class="btn btn-warning" sec:authorize="hasRole('ADMIN')" th:object="${teacher}" th:if="${teacher != null}">
+                    <form  th:action="@{/teacher/update-khoa(id=${khoa.maKhoa})}" method="post" >
+                        <!-- Your form fields here -->
+                        <div >
+                            <input type="hidden" th:field="*{staff_id}"/>
+                            <input type="hidden" th:field="*{fullName}"/>
+                            <input type="hidden" th:field="*{role}"/>
+                            <input type="hidden" th:field="*{dayIntoSchool}"/>
+                            <input type="hidden" th:field="*{birthday}"/>
+                            <input type="hidden" th:field="*{email}"/>
+                            <input type="hidden" th:field="*{phoneNumber}"/>
+                            <input type="hidden" th:field="*{gender}"/>
+                        </div>
+                        <input type="submit" value="Choose(teacher)" class="btn btn-sm "/>
+                    </form>
+                </button>
+
+                <button class="btn btn-warning" sec:authorize="hasRole('ADMIN')" th:object="${user}" th:if="${user != null}">
+                    <form  th:action="@{/user/update-khoa(id=${khoa.maKhoa})}" method="post" >
+                        <!-- Your form fields here -->
+                        <div >
+                            <input type="hidden" th:field="*{username}"/>
+                            <input type="hidden" th:field="*{password}"/>
+                            <input type="hidden" th:field="*{studentId}"/>
+                            <input type="hidden" th:field="*{lop}"/>
+                            <input type="hidden" th:field="*{firstname}"/>
+                            <input type="hidden" th:field="*{lastname}"/>
+                            <input type="hidden" th:field="*{location}"/>
+<!--                            <input type="hidden" th:field="*{parentsId}"/>-->
+                            <input type="hidden" th:field="*{email}"/>
+                            <input type="hidden" th:field="*{specialization}"/>
+<!--                            <input type="hidden" th:field="*{avatar}"/>-->
+                            <input type="hidden" th:field="*{roles}"/>
+                        </div>
+                        <input type="submit" value="Choose(user) " class="btn btn-sm "/>
+                    </form>
+                </button>
+            </td>
+            <!-- Add more cells for other class attributes -->
+        </tr>
+    </table>
+</div>
+<script>
+    $(document).ready(function () {
+        // Khi trang được tải, kiểm tra xem đã đăng ký thành công hay chưa
+        var isEnrolled = $("#successBtn").length > 0;
+
+        // Ẩn nút đăng ký nếu đã đăng ký thành công
+        if (isEnrolled) {
+            $("#registerBtn").hide();
+        }
+    });
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+
+</body>
+</html>

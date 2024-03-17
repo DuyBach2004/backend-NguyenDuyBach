@@ -1,0 +1,256 @@
+:root{
+    --white-color:#fff;
+    --black-color:#090101;
+    --text-color:#333;
+    --prim-color:#d0011b;
+    --brand-primary-light-color:rgba(208,1,27,0.08);
+    --orange-color: #ff5a00;
+    
+    --head-height:34px;
+    --app-height:120px;
+    --button-height: calc(var(--app-height) - var(--head-height));
+}
+*{
+    box-sizing: inherit;
+}
+html,body{
+    font-size: 62.5%;
+    line-height: 1.6rem;
+    font-family: 'Roboto', sans-serif/*chủng chữ không có chÂN*/;
+    box-sizing: border-box;
+    margin: 0px;
+}
+.header{
+height: 100px;
+box-shadow: 0px 1px 5px 2px rgb(191, 211, 222);
+padding: 10px 0;
+text-align: center;
+}
+.header__image{
+   height: 78px;
+   width: 541px;
+}
+.container{
+    
+}
+.navbar{
+    display: flex;
+    flex-direction: row;
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+.navbar-left{
+    width: 1106.86px;
+    padding-left: 15px;
+    padding-right: 15px;
+    height: 700px;
+}
+.navbar-right{
+    padding-left: 15px;
+    padding-right: 15px;
+    width: 340px;
+
+    
+}
+.navbar-right__element{
+    height: 700px;
+    border: 5px solid #fff;
+    background: rgba(255,255,255,.7);
+    box-shadow: 2px 8px 15px rgba(0,0,0,0.2);
+    border-radius: 6px;
+    background:  url('../image/backgroundform.jpg') center center no-repeat;
+    background-size: cover;
+
+    
+}
+.navbar-right__element--ctt{
+    width: 260px;
+    height: 85px;
+    padding-top: 25px;
+}
+.navbar-right__element--ctt-image{
+    width: 260px;
+    height: 60px;
+
+}
+.navbar-right__element--container{
+    height: 695px;
+    padding-left: 20px;
+    padding-right: 20px;
+    background-color: rgba(255, 255, 255, 0.7);
+   
+    
+}
+.navbar-right__element--dnht{
+    line-height: 12px;
+    color: #044eb7;
+    margin: 20px 0;
+    font-size: 18px;
+    font-weight: 500;
+    text-transform: uppercase;
+    text-align: center;
+}
+.navbar-right__element--formlogin-input{
+    width: 100%;
+    height: 42px;
+    font-size:10px;
+    padding: 10px 20px;
+    margin-bottom: 10px;
+    border-radius: 6px;
+    background: white;
+    border: 1px solid #ddd;
+    outline: 0;
+}
+.navbar-right__element--formlogin-check{
+    text-align: right;
+    font-size: 15px;
+    line-height: 35px;
+
+
+}
+.navbar-right__element--formlogin-input-nm{
+    height: 37px;
+    width: 100px;
+    border: 1px solid #ddd;
+    font-size:10px;
+    border-radius: 5px;
+    text-align: center;
+}
+.button{
+    width: 100%;
+    font-size: 16px;
+    padding: 12px 20px;
+    height: 53px;
+    border: 1px solid var(--orange-color);
+    border-radius: 4px ;
+    margin-top: 15px;
+    background: var(--orange-color);
+    color: #fff;
+    text-transform: uppercase;
+    cursor: pointer;
+    border-bottom: 5px solid #dc560d;
+}
+.navbar-right__element--dcph{
+    margin-top: 25px;
+    text-align: right;
+    color: #005ab7;
+    font-size: 12px;
+
+}
+.navbar-right__element--dcph-span{
+    padding: 3px 12px;
+    background: #25c6cb;
+    border-radius: 3px !important;
+    margin-left: 5px;
+}
+.navbar-right__element--dcph-span-a{
+    text-decoration: none;
+    color: white;
+}
+.navbar-right__element--dowload{
+    font-size: 15px;
+    color: #1c67da;
+    margin: 14px 0;
+    text-align: center;
+}
+.box-download-btn{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+.btn-gg-play{
+    display: inline-block;
+}
+.btn-app-store{
+    display: inline-block;
+}
+.navbar-left__container-header{
+    display: flex;
+    flex-direction: row;
+}
+.navbar-left__container-header--tt{
+    padding: 10px 20px;
+    color: #005ab7;
+    font-size: 20px;
+    font-weight: 500;
+    text-transform: uppercase;
+    border: 1px solid #eaeaea;
+
+}
+.navbar-left__container-header--tb{
+    padding: 10px 20px;
+    color: #005ab7;
+    font-size: 20px;
+    font-weight: 500;
+    text-transform: uppercase;
+    border-bottom: 1px solid #eaeaea;
+
+}
+.nav-link {
+    border: 1px solid transparent;
+    border-top-left-radius: 0.25rem;
+    border-top-right-radius: 0.25rem;
+}
+.navbar-left__container{
+    padding: 20px 20px;
+}
+.navbar-left__container-nav{
+    
+}
+.navbar-left__container-nav--top-left{
+    display: inline-block;
+    text-align: center;
+}
+.navbar-left__container-nav--top-right{
+    display: inline-block;
+    font-size: 20px;
+    padding: 20px 30px;
+}
+.navbar-left__container-nav--top-left-p{
+    color: #fff;
+    height: 30px;
+    line-height: 10px;
+    font-size: 12px;
+    background: #005ab7;
+    padding: 10px 20px;
+}
+.navbar-left__container-nav--top-left-number{
+    color: #005ab7;
+    height: 50px;
+    line-height: 50px;
+    background: #fff;
+    font-size: 30px;
+}
+
+.navbar-left__container-nav--top{
+    display: flex;
+    flex-direction: row;
+    padding-left: 20px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #005ab7;
+
+    overflow: hidden;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eaeaea;
+
+}
+.header-home__3--dropdown-element--1-span{
+    font-size: 7px;
+    background-color: #66e358;
+    padding: 5px;
+    color: #fff;
+    border: 1px solid rgb(205, 206, 205);
+    border-radius: 10px;
+    margin-bottom: 5px;
+}
+.header-home__3--dropdown-element--1-span-false{
+    font-size: 7px;
+    background-color: #e94030;
+    padding: 5px;
+    color: #fff;
+    border: 1px solid rgb(205, 206, 205);
+    border-radius: 10px;
+    margin-bottom: 5px;
+}
+

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+</head>
+<body>
+<form action="#" th:action="@{/logout}" method="POST">
+    <!--                                <div class="head__item-user-inner&#45;&#45;item">-->
+    <!--                                <input type="submit" class="btn btn-info" value="Đăng xuất"/>-->
+    <button type="submit" class="head__item-user-inner--item" style="    border-top-color: currentcolor;
+    border-bottom-style: none; border-right-style: none;border-left-style: none;" >Đăng xuất </button>
+</form>
+Xin chào<b><span sec:authentication="principal.username" ></span></b>
+<span sec:authentication="principal.authorities" ></span>
+<button class="btn btn-info" sec:authorize="hasAnyRole('ADMIN','MANAGER')" >
+    <a th:href="@{/subject/create}" class="btn btn-info btn-sm " >
+        Thêm
+    </a>
+</button>
+<!--                                </div>-->
+
+<div class="container">
+    <h1>Subject </h1>
+    <table class="table table-dark table-striped-columns table-hover">
+        <tr class="table-success">
+            <th>ID</th>
+            <th>Subject name</th>
+            <th>Number Credits</th>
+            <th>Specialized Name</th>
+            <th>Edit</th>
+            <!-- Add more columns for other class attributes -->
+        </tr>
+        <tr th:each="subject : ${subjectList}" class="table-success" th:object="${notebook}">
+            <td th:text="${subject.subject_id}"></td>
+            <td th:text="${subject.subjectName}"></td>
+            <td th:text="${subject.numberOfCredits}"></td>
+            <td th:text="${subject.maChuyenNghanh != null and subject.maChuyenNghanh.getSpecializedName() != null ? subject.maChuyenNghanh.getSpecializedName() : ''}"></td>
+<!--            <td th:if="${notebook == null}">-->
+<!--                <div class="dropdown">-->
+<!--                    <button class="btn btn-secondary dropdown-toggle" type="button"  data-toggle="dropdown" data-bs-toggle="dropdown" aria-expanded="false">-->
+<!--                        <span th:text="${subject.numberOfCredits}"></span>-->
+<!--                    </button>-->
+<!--                    <ul class="dropdown-menu" aria-labelledby="teachingPeriodsDropdown">-->
+<!--                        <li> <a class="dropdown-item" href="#" onclick="setTeachingPeriods(1)" th:href="@{/subject/updateCredits(id=${1},subjectId=${subject.subject_id})}"  >1</a></li>-->
+<!--                        <li><a class="dropdown-item" href="#" onclick="setTeachingPeriods(2)" th:href="@{/subject/updateCredits(id=${2},subjectId=${subject.subject_id})}">2</a></li>-->
+<!--                        <li> <a class="dropdown-item" href="#" onclick="setTeachingPeriods(3)" th:href="@{/subject/updateCredits(id=${3},subjectId=${subject.subject_id})}">3</a></li>-->
+<!--                        <li><a class="dropdown-item" href="#" onclick="setTeachingPeriods(4)" th:href="@{/subject/updateCredits(id=${4},subjectId=${subject.subject_id})}">4</a></li>-->
+<!--                    </ul>-->
+<!--                </div>-->
+<!--            </td>-->
+            <td>
+
+                <button class="btn btn-warning" sec:authorize="hasRole('ADMIN')" th:if="${notebook == null}">
+                    <a th:href="@{/subject/delete(id=${subject.subject_id})}" class="btn btn-warning btn-sm " >
+                        Delete
+                    </a>
+                </button>
+                <button class="btn btn-warning" sec:authorize="hasRole('ADMIN')" th:if="${notebook == null}">
+                    <a th:href="@{/subject/showPageUpdate(id=${subject.subject_id})}" class="btn btn-warning btn-sm " >
+                        update
+                    </a>
+                </button>
+                <button class="btn btn-warning" sec:authorize="hasRole('ADMIN')" >
+                    <a th:href="@{/specialization/showListSpecialization-subject(id=${subject.subject_id})}" class="btn btn-warning btn-sm " >
+                        Choose specialization
+                    </a>
+                </button>
+                <button class="btn btn-warning" sec:authorize="hasRole('ADMIN')" th:object="${classSchool}" th:if="${classSchool != null}">
+                    <form  th:action="@{/class/update-subject(id=${subject.subject_id})}" method="post">
+                        <!-- Your form fields here -->
+                        <div >
+                            <input type="hidden" th:field="*{idClass}"/>
+                            <input type="hidden" th:field="*{lop}"/>
+                            <input type="hidden" th:field="*{schoolYear}"/>
+                            <input type="hidden" th:field="*{endDay}"/>
+                            <input type="hidden" th:field="*{soTiet}"/>
+                            <input type="hidden" th:field="*{phongHoc}"/>
+                            <input type="hidden" th:field="*{homeroomTeacher}"/>
+                            <input type="hidden" th:field="*{subjects}"/>
+                        </div>
+                        <input type="submit" value="Choose" class="btn btn-sm "/>
+                    </form>
+                </button>
+                <div th:if="${notebook != null}">
+                    <button class="btn btn-info" sec:authorize="hasAnyRole('ADMIN','MANAGER')" >
+                        <!--                    <a class="btn btn-sm " th:href="@{/class/updateTeacher(TeacherId=${teacher.staff_id})}" >-->
+                        <!--                        chọn-->
+                        <!--                    </a>-->
+                        <form  th:action="@{/notebook/updateSubject(SubjectId=${subject.subject_id})}" method="post">
+                            <!-- Your form fields here -->
+                            <div  th:if="${notebook != null}">
+                                <input type="hidden" th:field="*{id}"/>
+                                <input type="hidden" th:field="*{numberOfTeachingPeriods}"/>
+                                <input type="hidden" th:field="*{staff}"/>
+                                <input type="hidden" th:field="*{classSchool}"/>
+                            </div>
+                            <input type="submit" value="Choose" class="btn btn-sm "/>
+                        </form>
+
+
+                    </button>
+                </div>
+
+            </td>
+            <!-- Add more cells for other class attributes -->
+        </tr>
+    </table>
+</div>
+<!--ngăn người dùng quay lại trang đăng nhập -->
+<script>
+    window.onbeforeunload = function() {
+        if (window.location.pathname == '/showLoginPage') {
+            window.location.href = '/home';
+            return false;
+        }
+    }
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+
+</body>
+</html>

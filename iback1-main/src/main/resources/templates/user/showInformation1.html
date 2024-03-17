@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Đăng Nhập</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+
+<div class="container">
+    <form action="#" th:action="@{/user/update-if}"
+          th:object="${user}" method="POST">
+
+<!--        <div th:if="${my_error}" class="alert alert-danger">-->
+<!--            <span th:text="${my_error}"></span>-->
+<!--        </div>-->
+
+        <div>
+            <input type="text" th:field="*{username}" placeholder="Username (*)" class="form-control"/>
+            <div th:if="${#fields.hasErrors('username')}">
+                <ul>
+                    <li th:each="e: ${#fields.errors('username')}" th:text="${e}"></li>
+                </ul>
+            </div>
+        </div>
+        <div>
+            <input type="text" th:field="*{khoa.tenKhoa}" placeholder="Faculty (*)" class="form-control" readonly/>
+            <input type="hidden" th:field="*{khoa}"/>
+            <div th:if="${#fields.hasErrors('khoa')}">
+                <ul>
+                    <li th:each="e: ${#fields.errors('khoa')}" th:text="${e}"></li>
+                </ul>
+            </div>
+        </div>
+        <div>
+            <input type="text" th:field="*{firstname}" placeholder="First name (*)" class="form-control"/>
+            <div th:if="${#fields.hasErrors('firstname')}">
+                <ul>
+                    <li th:each="e: ${#fields.errors('firstName')}" th:text="${e}"></li>
+                </ul>
+            </div>
+        </div>
+        <div>
+            <input type="text" th:field="*{lastname}" placeholder="Last name (*)" class="form-control"/>
+            <div th:if="${#fields.hasErrors('lastname')}">
+                <ul>
+                    <li th:each="e: ${#fields.errors('lastname')}" th:text="${e}"></li>
+                </ul>
+            </div>
+        </div>
+        <div>
+            <input type="email" th:field="*{email}" placeholder="email (*)" class="form-control"/>
+            <div th:if="${#fields.hasErrors('email')}">
+                <ul>
+                    <li th:each="e: ${#fields.errors('email')}" th:text="${e}" ></li>
+                </ul>
+            </div>
+        </div>
+        <div>
+            <input type="text" th:field="*{specialization.specializedName}" placeholder="Specialization (*)" class="form-control" readonly/>
+            <input type="hidden" th:field="*{specialization}"/>
+        </div>
+        <div>
+            <input type="image" th:field="*{avatar}" placeholder="avatar (*)" class="form-control"/>
+        </div>
+
+
+        <div>
+            <button type="submit" class="btn btn-success"> Update</button>
+        </div>
+    </form>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+</body>
+</html>

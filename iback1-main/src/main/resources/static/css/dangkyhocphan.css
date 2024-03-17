@@ -1,0 +1,160 @@
+:root{
+    --white-color:#fff;
+    --black-color:#090101;
+    --text-color:#333;
+    --prim-color:#d0011b;
+    --brand-primary-light-color:rgba(208,1,27,0.08);
+    --orange-color: #ff5a00;
+    --nau-color:#667580;
+    --head-height:34px;
+    --app-height:120px;
+    --button-height: calc(var(--app-height) - var(--head-height));
+    --importain--color: #667580;
+    --nen--color:#e7ecf0;
+    --mau-chu-dao:#1DA1F2;
+}
+*{
+    box-sizing: inherit;
+}
+html,body{
+    font-size: 62.5%;
+    line-height: 1.6rem;
+    font-family: 'Roboto', sans-serif/*chủng chữ không có chÂN*/;
+    box-sizing: border-box;
+    margin: 0px;
+
+}
+.contanier{
+    background-color: var(--nen--color);
+}
+.header{
+    text-align: center;
+    height: 135px;
+    box-shadow: 0px 1px 5px 2px rgb(191, 211, 222);
+    padding: 0px 10px;
+    background-color: #fff;
+
+}
+.nav{
+    padding: 0px 10px;
+    margin: 0px 170px;
+}
+.nav-title{
+    text-align: center;
+    color: #0c6fbe;
+    text-transform: uppercase;
+    padding: 15px 0px;
+    font-size: 25px;
+}
+.nav-table__1{
+    width: 100%;
+    margin-bottom: 100px;
+
+}
+.nav-thead__1{
+    width: 100%;
+    color: #fff;
+
+}
+.nav-tr__1{
+    background-color: #0c6fbe;
+}
+.nav-th__1{
+    padding: 10px 0px;
+    font-size: 10px;
+
+}
+.nav-th__1--mh{
+    width: 200px;
+    font-size: 10px;
+}
+.nav-th__1--gv{
+    width: 200px;
+    font-size: 10px;
+}
+.nav-td__1{
+    text-align: center;
+    padding: 10px;
+    font-size: 10px;
+    border: 1px solid #cad6d8;
+    white-space: nowrap;      /* Ngăn chặn text xuống dòng */
+    overflow: hidden;         /* Ẩn phần nội dung vượt quá khối chứa */
+    text-overflow: ellipsis;  /* Hiển thị dấu ba chấm khi nội dung vượt quá */
+    max-width: 20px;          /* Độ rộng tối đa của thẻ, điều này là quan trọng để áp dụng ellipsis */
+    cursor: pointer;
+}
+.nav-td__1--mh{
+    width: 200px;
+    font-size: 10px;
+    text-align: center;
+    padding: 10px;
+    border: 1px solid #cad6d8;
+    white-space: nowrap;      /* Ngăn chặn text xuống dòng */
+    overflow: hidden;         /* Ẩn phần nội dung vượt quá khối chứa */
+    text-overflow: ellipsis;  /* Hiển thị dấu ba chấm khi nội dung vượt quá */
+    max-width: 20px;          /* Độ rộng tối đa của thẻ, điều này là quan trọng để áp dụng ellipsis */
+    cursor: pointer;
+}
+.nav-td__1--gv{
+    width: 200px;
+    font-size: 10px;
+    text-align: center;
+    padding: 10px;
+    border: 1px solid #cad6d8;
+    white-space: nowrap;      /* Ngăn chặn text xuống dòng */
+    overflow: hidden;         /* Ẩn phần nội dung vượt quá khối chứa */
+    text-overflow: ellipsis;  /* Hiển thị dấu ba chấm khi nội dung vượt quá */
+    max-width: 20px;          /* Độ rộng tối đa của thẻ, điều này là quan trọng để áp dụng ellipsis */
+    cursor: pointer;
+}
+.nav-tr__2{
+
+}
+.nav-span__1-check{
+    color: #0acc31;
+}
+.nav-span__1-chec-dk{
+    color: #f8f8f8;
+    background-color: #0c6fbe;
+    border-style: none;
+    border-radius: 2px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+.nav-span__1-chec-dk:hover{
+    opacity: 0.8;
+    transition: opacity 0.5s ease;
+}
+.nav-span__1-chec-huy{
+    color: #f8f8f8;
+    background-color: #fd4949;
+    border-style: none;
+    border-radius: 2px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+.nav-span__1-chec-huy:hover{
+    opacity: 0.8;
+    transition: opacity 0.5s ease;
+}
+.nav-title-2{
+    color: #eb7b21;
+    font-weight: bold;
+    text-transform: uppercase;
+    position: relative;
+    padding-left: 7px;
+    text-align: center;
+    font-size: 15px;
+}
+.nav-a{
+    text-decoration: none;
+    color: #fff;
+}
+.nav-right__dangkihocphan-a{
+    text-decoration: none;
+}
+.input-none{
+    border-style: none;
+        background-color: #fff;
+        color: #667580;
+}

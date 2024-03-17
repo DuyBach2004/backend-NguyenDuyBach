@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+</head>
+<body>
+<form action="#" th:action="@{/logout}" method="POST">
+    <!--                                <div class="head__item-user-inner&#45;&#45;item">-->
+    <!--                                <input type="submit" class="btn btn-info" value="Đăng xuất"/>-->
+    <button type="submit" class="head__item-user-inner--item" style="    border-top-color: currentcolor;
+    border-bottom-style: none; border-right-style: none;border-left-style: none;" >Đăng xuất </button>
+</form>
+Xin chào<b><span sec:authentication="principal.username" ></span></b>
+<span sec:authentication="principal.authorities" ></span>
+<button class="btn btn-info" sec:authorize="hasAnyRole('ADMIN','MANAGER')" >
+    <a th:href="@{/thoi-gian-hoc/create}" class="btn btn-info btn-sm " >
+        Thêm
+    </a>
+</button>
+<!--                                </div>-->
+
+<div class="container">
+    <h1>Study time </h1>
+    <table class="table table-dark table-striped-columns table-hover">
+        <tr class="table-success">
+            <th>Class</th>
+            <th>Class room</th>
+            <th>Subject</th>
+            <th>Study time</th>
+            <th>Day of the week</th>
+            <!-- Add more columns for other class attributes -->
+        </tr>
+        <tr th:each="lichHoc : ${lichHocList}" class="table-success" th:if="${lichHoc.classSchool != null and #lists.contains(lichHoc.classSchool.users.![username], #authentication.principal.username) }">
+<!--            <td th:text="${lichHoc.idLichHoc}"></td>-->
+            <td th:text="${lichHoc.classSchool != null ? lichHoc.classSchool.getIdClass() : ''}"></td>
+            <td th:text="${lichHoc.classSchool != null ? lichHoc.classSchool.getPhongHoc() : ''}"></td>
+            <td th:text="${lichHoc.classSchool != null ? lichHoc.classSchool.subjects.getSubjectName() : ''}"></td>
+            <td th:text="${lichHoc.thoiGianHoc != null ? lichHoc.thoiGianHoc.getTietHoc() : ''}"></td>
+            <td th:text="${lichHoc.thoiGianHoc != null ? lichHoc.thoiGianHoc.getThuTrongTuan() : ''}"></td>
+
+            <!-- Add more cells for other class attributes -->
+        </tr>
+    </table>
+</div>
+<!--ngăn người dùng quay lại trang đăng nhập -->
+<script>
+    window.onbeforeunload = function() {
+        if (window.location.pathname == '/showLoginPage') {
+            window.location.href = '/home';
+            return false;
+        }
+    }
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+
+</body>
+</html>

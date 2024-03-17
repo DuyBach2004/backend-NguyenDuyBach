@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+</head>
+<body>
+<form action="#" th:action="@{/logout}" method="POST">
+    <!--                                <div class="head__item-user-inner&#45;&#45;item">-->
+    <!--                                <input type="submit" class="btn btn-info" value="Đăng xuất"/>-->
+    <button type="submit" class="head__item-user-inner--item" style="    border-top-color: currentcolor;
+    border-bottom-style: none; border-right-style: none;border-left-style: none;" >Đăng xuất </button>
+</form>
+Xin chào<b><span sec:authentication="principal.username" ></span></b>
+<span sec:authentication="principal.authorities" ></span>
+<button class="btn btn-info" sec:authorize="hasAnyRole('ADMIN','MANAGER')" >
+    <a th:href="@{/thoi-gian-hoc/create}" class="btn btn-info btn-sm " >
+        Thêm
+    </a>
+</button>
+<!--                                </div>-->
+
+<div class="container" >
+    <h1>Study time </h1>
+    <table class="table table-dark table-striped-columns table-hover">
+        <tr class="table-success">
+            <th>ID</th>
+            <th>Study time</th>
+            <th>Day of the week</th>
+            <th>Edit</th>
+            <!-- Add more columns for other class attributes -->
+        </tr>
+        <tr th:each="thoiGianHoc : ${thoiGianHocList}" class="table-success" >
+            <td th:text="${thoiGianHoc.idThoiGianHoc}"></td>
+            <td >
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button"  data-toggle="dropdown" data-bs-toggle="dropdown" aria-expanded="false" >
+                        <span th:text="${thoiGianHoc.tietHoc != null ? thoiGianHoc.getTietHoc() : '' }"></span>
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="teachingPeriodsDropdown">
+                        <li> <a class="dropdown-item" href="#" onclick="setTeachingPeriods(1)" th:href="@{/thoi-gian-hoc/updateCredits(id=${1},thoiGianId=${thoiGianHoc.idThoiGianHoc})}"  >1-3</a></li>
+                        <li><a class="dropdown-item" href="#" onclick="setTeachingPeriods(2)" th:href="@{/thoi-gian-hoc/updateCredits(id=${3},thoiGianId=${thoiGianHoc.idThoiGianHoc})}">3-4</a></li>
+                        <li> <a class="dropdown-item" href="#" onclick="setTeachingPeriods(3)" th:href="@{/thoi-gian-hoc/updateCredits(id=${4},thoiGianId=${thoiGianHoc.idThoiGianHoc})}">4-6</a></li>
+                        <li><a class="dropdown-item" href="#" onclick="setTeachingPeriods(4)" th:href="@{/thoi-gian-hoc/updateCredits(id=${7},thoiGianId=${thoiGianHoc.idThoiGianHoc})}">7-9</a></li>
+                        <li><a class="dropdown-item" href="#" onclick="setTeachingPeriods(4)" th:href="@{/thoi-gian-hoc/updateCredits(id=${10},thoiGianId=${thoiGianHoc.idThoiGianHoc})}">10-12</a></li>
+                        <li><a class="dropdown-item" href="#" onclick="setTeachingPeriods(4)" th:href="@{/thoi-gian-hoc/updateCredits(id=${13},thoiGianId=${thoiGianHoc.idThoiGianHoc})}">13-15</a></li>
+                    </ul>
+                </div>
+            </td>
+            <td >
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button"  data-toggle="dropdown" data-bs-toggle="dropdown" aria-expanded="false" >
+                        <span th:text="${thoiGianHoc.thuTrongTuan != null ? thoiGianHoc.getThuTrongTuan() : '' }"></span>
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="teachingPeriodsDropdown">
+                        <li> <a class="dropdown-item" href="#" onclick="setTeachingPeriods(1)" th:href="@{/thoi-gian-hoc/updateThuTrongTuan(id=${1},thoiGianId=${thoiGianHoc.idThoiGianHoc})}"  >Monday</a></li>
+                        <li><a class="dropdown-item" href="#" onclick="setTeachingPeriods(2)" th:href="@{/thoi-gian-hoc/updateThuTrongTuan(id=${2},thoiGianId=${thoiGianHoc.idThoiGianHoc})}">Tuesday</a></li>
+                        <li> <a class="dropdown-item" href="#" onclick="setTeachingPeriods(3)" th:href="@{/thoi-gian-hoc/updateThuTrongTuan(id=${3},thoiGianId=${thoiGianHoc.idThoiGianHoc})}">Wednesday</a></li>
+                        <li><a class="dropdown-item" href="#" onclick="setTeachingPeriods(4)" th:href="@{/thoi-gian-hoc/updateThuTrongTuan(id=${4},thoiGianId=${thoiGianHoc.idThoiGianHoc})}">Thursday</a></li>
+                        <li><a class="dropdown-item" href="#" onclick="setTeachingPeriods(4)" th:href="@{/thoi-gian-hoc/updateThuTrongTuan(id=${5},thoiGianId=${thoiGianHoc.idThoiGianHoc})}">Friday</a></li>
+                        <li><a class="dropdown-item" href="#" onclick="setTeachingPeriods(4)" th:href="@{/thoi-gian-hoc/updateThuTrongTuan(id=${6},thoiGianId=${thoiGianHoc.idThoiGianHoc})}">Saturday</a></li>
+                        <li><a class="dropdown-item" href="#" onclick="setTeachingPeriods(4)" th:href="@{/thoi-gian-hoc/updateThuTrongTuan(id=${7},thoiGianId=${thoiGianHoc.idThoiGianHoc})}">Sunday</a></li>
+                    </ul>
+                </div>
+            </td>
+
+            <td>
+
+                <button class="btn btn-warning" sec:authorize="hasRole('ADMIN')" >
+                    <a th:href="@{/thoi-gian-hoc/delete(id=${thoiGianHoc.idThoiGianHoc})}" class="btn btn-warning btn-sm " >
+                        Delete
+                    </a>
+                </button>
+                <button class="btn btn-warning" sec:authorize="hasRole('ADMIN')" th:object="${classSchool}" th:if="${classSchool != null}">
+                    <form  th:action="@{/class/update-thoiGianHoc(id=${thoiGianHoc.idThoiGianHoc})}" method="post">
+                        <!-- Your form fields here -->
+                        <div >
+                            <input type="hidden" th:field="*{idClass}"/>
+                            <input type="hidden" th:field="*{lop}"/>
+                            <input type="hidden" th:field="*{schoolYear}"/>
+                            <input type="hidden" th:field="*{endDay}"/>
+                            <input type="hidden" th:field="*{soTiet}"/>
+                            <input type="hidden" th:field="*{phongHoc}"/>
+                            <input type="hidden" th:field="*{homeroomTeacher}"/>
+                            <input type="hidden" th:field="*{subjects}"/>
+                        </div>
+                        <input type="submit" value="Choose" class="btn btn-sm "/>
+                    </form>
+                </button>
+<!--                <button class="btn btn-warning" sec:authorize="hasRole('ADMIN')" th:if="${notebook == null}">-->
+<!--                    <a th:href="@{/thoi-gian-hoc/showPageUpdate(id=${thoiGianHoc.idThoiGianHoc})}" class="btn btn-warning btn-sm " >-->
+<!--                        update-->
+<!--                    </a>-->
+<!--                </button>-->
+<!--                <button class="btn btn-warning" sec:authorize="hasRole('ADMIN')" >-->
+<!--                    <a th:href="@{/specialization/showListSpecialization-subject(id=${subject.subject_id})}" class="btn btn-warning btn-sm " >-->
+<!--                        Choose specialization-->
+<!--                    </a>-->
+<!--                </button>-->
+
+
+            </td>
+            <!-- Add more cells for other class attributes -->
+        </tr>
+    </table>
+</div>
+<!--ngăn người dùng quay lại trang đăng nhập -->
+<script>
+    window.onbeforeunload = function() {
+        if (window.location.pathname == '/showLoginPage') {
+            window.location.href = '/home';
+            return false;
+        }
+    }
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+
+</body>
+</html>

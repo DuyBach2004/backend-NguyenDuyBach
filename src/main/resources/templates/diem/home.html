@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng nhập</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" integrity="sha512-NhSC1YmyruXifcj/KFRWoC561YpHpc5Jtzgvbuzx5VozKpWvQ+4nXhPdFgmx8xqexRcpAglTj9sIBWINXa8x5w==" crossorigin="anonymous" referrerpolicy="no-referrer">
+
+    <link rel="stylesheet" type="text/css" th:href="@{/css/diem.css}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+<div class="contanier" th:object="${user}">
+    <!-- Header -->
+    <div class="header-home">
+        <div class="header-home-left">
+            <div class="header-home__image">
+                <a th:href="@{/homeUser}"> <img th:src="@{/image/logo.png}" alt="Ảnh logo" class="header-home__image--home"> </a>
+            </div>
+            <div class="header-home__seach">
+                <form action="#">
+                    <input class="seach-bar__input" type="text" id="k" name="k" langid="header-search-placeholder" placeholder="Tìm kiếm..." required="">
+                    <button class="seach-bar__button" type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
+                </form>
+            </div>
+        </div>
+        <div class="header-home-right">
+            <div class="header-home__1">
+                <a href="/dashboard.html" title="" class="header-home-a">
+                    <span><i class="fa fa-home" aria-hidden="true"></i></span>&nbsp
+                    Trang chủ
+                </a>
+            </div>
+            <div class="header-home__2">
+                <a id="spanBell" href="/sinh-vien-tin-tuc-thong-bao.html" title="" class="header-home-a"><span>
+                        <i class="fa fa-home" aria-hidden="true"></i></span>&nbspTin tức
+                </a>
+            </div>
+            <div class="header-home__3">
+                <div class="header-home__3--dropdown">
+                    <div class="header-home__3-div--image"><img th:src="*{avatar != null ? '/avatar/'+avatar : '/image/default-avatar.png'}" alt="avatar" class="header-home__3-image"></div>
+                    <div  class="header-home__3-div--fullname"><a   href="#" title="" style="margin-right: 5px;" class="header-home-a header-home-a--fullname" ><span th:text="*{firstname+' '+lastname}"></span> </a>
+                        <i class="fa fa-caret-down user-account-name-caret-down" aria-hidden="true" style="color: #667580;font-size: 10px;"></i></div>
+                </div>
+                <div class="header-home__3--dropdown-element">
+                    <a th:href="@{/user/showPageIfUser(username=${#authentication.principal.username})}" class="nav-right__dangkihocphan-a" style="color: var(--importain--color);">
+                        <div class="header-home__3--dropdown-element--1">Thông tin cá nhân</div>
+                    </a>
+                    <a href="" class="nav-right__dangkihocphan-a" style="color: var(--importain--color);" th:href="@{/user/UpdateEmail(username=${#authentication.principal.username})}">
+                        <div class="header-home__3--dropdown-element--1">Xác thực email
+                            <span class="header-home__3--dropdown-element--1-span" th:if="${user.trangThaiXacThuc}">Đã xác thực</span>
+                            <span class="header-home__3--dropdown-element--1-span-false" th:if="${!user.trangThaiXacThuc}">Chưa xác thực</span>
+                        </div>
+                    </a>
+                    <a href="" class="nav-right__dangkihocphan-a" style="color: var(--importain--color);">
+                        <div class="header-home__3--dropdown-element--1">
+                            <form action="#" th:action="@{/logout}" method="POST">
+                                <!--                                <div class="head__item-user-inner&#45;&#45;item">-->
+                                <!--                                <input type="submit" class="btn btn-info" value="Đăng xuất"/>-->
+                                <input type="submit"  value="Đăng xuất" class="input-none"> </input>
+                            </form>
+                        </div>
+                    </a>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- nav -->
+    <div class="nav">
+        <div class="nav-container">
+            <div class="nav-container__title">
+                <span>Kết quả học tập</span>
+            </div>
+            <div >
+
+                <table class="border_table">
+                    <thead >
+                    <tr class="nav-container__contten">
+                        <th>
+                            <div class="nav-container__contten--Stt">
+                                STT
+                            </div>
+                        </th>
+                        <th>
+                            <div class="nav-container__contten--mlhp">
+                                Mã lớp học phần
+                            </div>
+                        </th>
+                        <th>
+                            <div class="nav-container__contten--mlhp-2">
+                                Tên môn học/học phần
+                            </div>
+                        </th>
+                        <th>
+                            <div class="nav-container__contten--element">
+
+                                <div class="nav-container__contten--element-bottom">
+                                    Số tín chỉ
+                                </div>
+                                <div class="nav-container__contten--element-top">
+                                    <div class="nav-container__contten--element-top-1">
+                                        Tổng
+                                    </div>
+                                    <div class="nav-container__contten--element-top-2-th">
+                                        Thực hành
+                                    </div>
+                                </div>
+
+                            </div>
+                        </th>
+                        <th>
+                            <div class="nav-container__contten--element-2">
+
+                                <div class="nav-container__contten--element-bottom-2">
+                                    Giữa kì
+                                </div>
+                                <div class="nav-container__contten--element-top-2">
+                                    <div class="nav-container__contten--element-top-1-2">
+                                        1
+                                    </div>
+                                    <div class="nav-container__contten--element-top-2-2">
+                                        Chuyên cần
+                                    </div>
+                                </div>
+
+                            </div>
+                        </th>
+                        <th>
+                            <div class="nav-container__contten--element-2">
+
+                                <div class="nav-container__contten--element-bottom-2">
+                                    Thường kì
+                                </div>
+                                <div class="nav-container__contten--element-top-2">
+                                    <div class="nav-container__contten--element-top-1-2">
+                                        1
+                                    </div>
+                                    <div class="nav-container__contten--element-top-2-2">
+                                        Chuyên cần
+                                    </div>
+                                </div>
+
+                            </div>
+                        </th>
+                        <th>
+                            <div class="nav-container__contten--element-3">
+                                Cuối kì
+                            </div>
+                        </th>
+                        <th>
+                            <div class="nav-container__contten--element-4">
+                                Điểm tổng kết
+                            </div>
+                        </th>
+                        <th>
+                            <div class="nav-container__contten--element-4">
+                                Thang điểm chữ
+                            </div>
+                        </th>
+                        <th>
+                            <div class="nav-container__contten--element-3-xeploai">
+                                Xếp loại
+                            </div>
+                        </th>
+
+                        <th>
+                            <div class="nav-container__contten--element-5">
+                                Đạt
+                            </div>
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr class="nav-container__contten-2">
+                        <td class="nav-container__contten--element">
+                            HK1 (2022-2023)
+                        </td>
+                    </tr>
+                    <tr class="nav-container__contten-3"  th:each="diem : ${diems}" sec:authorize="hasRole('USER')">
+                        <td class="nav-container__contten--Stt-1" >
+                            <p th:text="${diem.idDiem}"></p>
+                        </td>
+                        <td class="nav-container__contten--mlhp-2-td" >
+                            <p th:text="${diem.notebook != null and diem.notebook.classSchool != null ? diem.notebook.classSchool.getIdClass() : ''}"></p>
+                        </td>
+                        <td class="nav-container__contten--mlhp-2-td-3" >
+                            <p th:text="${diem.notebook != null and diem.notebook.classSchool != null and diem.notebook.classSchool.subjects != null ? diem.notebook.classSchool.subjects.getSubjectName() : ''}"></p>
+                        </td>
+                        <td class="nav-container__contten--mlhp-2-td-4" >
+                            <p th:text="${diem.notebook != null and diem.notebook.classSchool != null and diem.notebook.classSchool.subjects != null ? diem.notebook.classSchool.subjects.getNumberOfCredits() : ''}"></p>
+                        </td>
+                        <td class="nav-container__contten--mlhp-2-td-5" >
+                            <p th:text="${diem.diemGiuaKi}"></p>
+                        </td>
+                        <td class="nav-container__contten--mlhp-2-td-5" >
+                            <p th:text="${diem.diemChuyenCan}"></p>
+                        </td>
+                        <td class="nav-container__contten--mlhp-2-td-6" >
+                            <p th:text="${diem.diemCuoiKi}"></p>
+                        </td>
+                        <td class="nav-container__contten--mlhp-2-td-7" >
+                            <p th:text="${diem.diemTongKet}"></p>
+                        </td>
+                        <td class="nav-container__contten--mlhp-2-td-7">
+                            <p th:if="${diem.diemTongKet>=9 }">A+</p>
+                            <p th:if="${diem.diemTongKet>=8.5 and diem.diemTongKet<9 }">A</p>
+                            <p th:if="${diem.diemTongKet>=8 and diem.diemTongKet<8.5 }">B+</p>
+                            <p th:if="${diem.diemTongKet>=7 and diem.diemTongKet<8 }">B</p>
+                            <p th:if="${diem.diemTongKet>=6 and diem.diemTongKet<7 }">C+</p>
+                            <p th:if="${diem.diemTongKet>=5.5 and diem.diemTongKet<6 }">C</p>
+                            <p th:if="${diem.diemTongKet>=5 and diem.diemTongKet<5.5 }">D+</p>
+                            <p th:if="${diem.diemTongKet>=4 and diem.diemTongKet<5 }">D</p>
+                            <p th:if="${diem.diemTongKet<4 }">F</p>
+                        </td>
+                        <td class="nav-container__contten--mlhp-2-td-8">
+                            <p th:if="${diem.diemTongKet>=9 }">Xuất sắc</p>
+                            <p th:if="${diem.diemTongKet>=8.5 and diem.diemTongKet<9 }">Giỏi</p>
+                            <p th:if="${diem.diemTongKet>=8 and diem.diemTongKet<8.5 }">Khá</p>
+                            <p th:if="${diem.diemTongKet>=7 and diem.diemTongKet<8 }">Khá</p>
+                            <p th:if="${diem.diemTongKet>=6 and diem.diemTongKet<7 }">Trung bình</p>
+                            <p th:if="${diem.diemTongKet>=5.5 and diem.diemTongKet<6 }">Trung bình</p>
+                            <p th:if="${diem.diemTongKet>=5 and diem.diemTongKet<5.5 }">Trung bình yếu</p>
+                            <p th:if="${diem.diemTongKet>=4 and diem.diemTongKet<5 }">Trung bình yếu</p>
+                            <p th:if="${diem.diemTongKet<4 }">Rớt môn</p>
+                        </td>
+
+                        <td class="nav-container__contten--mlhp-2-td-6" th:if="${diem.diemTongKet>=4}">
+                                <img th:src="@{/image/ico-select-min.png}" >
+                        </td>
+                        <td class="nav-container__contten--mlhp-2-td-6" th:if="${diem.diemTongKet<4}">
+                            <img th:src="@{/image/ico-delete-max.png}">
+                        </td>
+
+                    </tr>
+                    <tr class="nav-container__contten-4" th:object="${ketqua}" sec:authorize="hasRole('USER')">
+                        <td class="nav-container__contten--element-4-kq">
+                            Điểm trung bình học kỳ hệ 10:
+                            <span th:text="${ketqua != null and ketqua.getDiemTrungBinh() > 0 ? ketqua.getDiemTrungBinh() : ''}"> </span>
+                        </td>
+                        <td class="nav-container__contten--element-4-kq-4">
+                            Điểm trung bình học kỳ hệ 4:
+                            <span></span>
+                        </td>
+                    </tr>
+                    <tr class="nav-container__contten-4">
+                        <td class="nav-container__contten--element-4-kq">
+                            Điểm trung bình tích lũy:
+                            <span></span>
+                        </td>
+                        <td class="nav-container__contten--element-4-kq-4">
+                            Điểm trung bình tích lũy (hệ 4):
+                            <span></span>
+                        </td>
+                    </tr>
+                    <tr class="nav-container__contten-4">
+                        <td class="nav-container__contten--element-4-kq">
+                            Tổng số tín chỉ đã đăng ký:
+                            <span></span>
+                        </td>
+                        <td class="nav-container__contten--element-4-kq-4">
+                            Tổng số tín chỉ tích lũy:
+                            <span></span>
+                        </td>
+                    </tr>
+                    <tr class="nav-container__contten-4">
+                        <td class="nav-container__contten--element-4-kq">
+                            Tổng số tín chỉ đạt:
+                            <span></span>
+                        </td>
+                        <td class="nav-container__contten--element-4-kq-4">
+                            Tổng số tín chỉ nợ tính đến hiện tại:
+                            <span></span>
+                        </td>
+                    </tr>
+                    <tr class="nav-container__contten-4">
+                        <td class="nav-container__contten--element-4-kq">
+                            Xếp loại học lực tích lũy:
+                            <span></span>
+                        </td>
+                        <td class="nav-container__contten--element-4-kq-4">
+                            Xếp loại học lực học kỳ:
+                            <span th:text="${ketqua != null and ketqua.getKetQuaHocTap() != null ? ketqua.getKetQuaHocTap() : ''}"></span>
+                        </td>
+                    </tr>
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+    </div>
+
+
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+    var headerHome = document.querySelector(".header-home__3");
+    var container = document.querySelector(".contanier");
+    headerHome.addEventListener("click", function () {
+        var dropdownElement = document.querySelector(".header-home__3--dropdown-element");
+
+        // Kiểm tra trạng thái hiển thị của dropdown và thay đổi nó
+        if (dropdownElement.style.display === "block") {
+            dropdownElement.style.display = "none";
+        } else {
+            dropdownElement.style.display = "block";
+        }
+    });
+    container.addEventListener("click", function () {
+        dropdownElement.style.display = "none";
+    });
+
+});
+
+</script>
+
+</body>
+</html>

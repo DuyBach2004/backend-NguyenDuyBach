@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+</head>
+<body>
+<form action="#" th:action="@{/logout}" method="POST">
+    <!--                                <div class="head__item-user-inner&#45;&#45;item">-->
+    <!--                                <input type="submit" class="btn btn-info" value="Đăng xuất"/>-->
+    <button type="submit" class="head__item-user-inner--item" style="    border-top-color: currentcolor;
+    border-bottom-style: none; border-right-style: none;border-left-style: none;" >Đăng xuất </button>
+</form>
+    Xin chào<b><span sec:authentication="principal.username" ></span></b>
+    <span sec:authentication="principal.authorities" ></span>
+<button class="btn btn-info" sec:authorize="hasAnyRole('ADMIN','MANAGER')" >
+    <a th:href="@{/class/showHomeClass}" class="btn btn-info btn-sm " >
+        Lớp học phần
+    </a>
+</button>
+<button class="btn btn-info" sec:authorize="hasAnyRole('ADMIN','MANAGER')" >
+    <a th:href="@{/lop/showPageLop}" class="btn btn-info btn-sm " >
+        Lớp danh nghĩa
+    </a>
+</button>
+<button class="btn btn-info" sec:authorize="hasAnyRole('ADMIN','MANAGER')" >
+    <a th:href="@{/diem/showPageDiemAdmin}" class="btn btn-info btn-sm " >
+        Điểm
+    </a>
+</button>
+<button class="btn btn-info" sec:authorize="hasAnyRole('ADMIN','MANAGER')" >
+    <a th:href="@{/hocKy/showHocKy}" class="btn btn-info btn-sm " >
+        Học kì
+    </a>
+</button>
+<button class="btn btn-info" sec:authorize="hasAnyRole('ADMIN','MANAGER')" >
+    <a th:href="@{/ketquahoctap/showPageKetQuaHocTap}" class="btn btn-info btn-sm " >
+        Kết quả
+    </a>
+</button>
+<button class="btn btn-info" sec:authorize="hasAnyRole('ADMIN','MANAGER')" >
+    <a th:href="@{/khoa/showPageKhoa}" class="btn btn-info btn-sm " >
+        Khoa
+    </a>
+</button>
+<button class="btn btn-info" sec:authorize="hasAnyRole('ADMIN','MANAGER')" >
+    <a th:href="@{/teacher/showHomeTeacher}" class="btn btn-info btn-sm " >
+        Giảng viên
+    </a>
+</button>
+<button class="btn btn-info" sec:authorize="hasAnyRole('ADMIN','MANAGER')" >
+    <a th:href="@{/subject/showHomeSubject}" class="btn btn-info btn-sm " >
+        Môn học
+    </a>
+</button>
+<button class="btn btn-info" sec:authorize="hasAnyRole('ADMIN','MANAGER')" >
+    <a th:href="@{/specialization/showSpecialization}" class="btn btn-info btn-sm " >
+        Chuyên nghành
+    </a>
+</button>
+<button class="btn btn-info" sec:authorize="hasAnyRole('ADMIN','MANAGER')" >
+    <a th:href="@{/thoi-gian-hoc/showPageThoiGianHoc}" class="btn btn-info btn-sm " >
+        Thời gian học
+    </a>
+</button>
+<button class="btn btn-info" sec:authorize="hasAnyRole('ADMIN','MANAGER')" >
+    <a th:href="@{/lich-hoc/showPageLichHoc}" class="btn btn-info btn-sm " >
+        Lịch học
+    </a>
+</button>
+<button class="btn btn-info" sec:authorize="hasAnyRole('ADMIN','MANAGER')" >
+    <a th:href="@{/user/showListUser}" class="btn btn-info btn-sm " >
+        Danh sách người dùng
+    </a>
+</button>
+
+<!--<button class="btn btn-success" sec:authorize="hasRole('USER')" onclick="addRow()">-->
+<!--    <a th:href="@{/user/update/(username=${principal.username})}" class="btn btn-info btn-sm " >-->
+<!--        Update information-->
+<!--    </a>-->
+<!--</button>-->
+
+    <!--                                </div>-->
+
+    <div class="container" th:object="${user}">
+        <h1>Registered class</h1>
+        <table id="classTable"  class="table table-dark table-striped-columns table-hover">
+            <tr class="table-success">
+                <th>ID</th>
+                <th sec:authorize="hasRole('ADMIN')">Student</th>
+                <th>Subject</th>
+                <th>Teacher</th>
+                <th>Number of credits</th>
+                <th>Edit</th>
+                <!-- Add more columns for other class attributes -->
+            </tr>
+            <tr th:each="notebook : ${notebookList}" class="table-success" th:if="${notebook.staff.username != null and user != null and notebook.staff.username eq user.username or #authorization.expression('hasRole(''ADMIN'')') }">
+                <td th:text="${notebook.id}"></td>
+                <td sec:authorize="hasRole('ADMIN')" th:text="${notebook.staff != null ? notebook.staff.getUsername() : '' }"></td>
+                <td th:text="${notebook.classSchool != null and notebook.classSchool.subjects != null ? notebook.classSchool.subjects.getSubjectName() : ''}"></td>
+                <td th:text="${notebook.classSchool != null and notebook.classSchool.homeroomTeacher != null ? notebook.classSchool.homeroomTeacher.getFullName() : ''}"></td>
+                <td th:text="${notebook.classSchool != null and notebook.classSchool.getSoTiet() != null ? notebook.classSchool.getSoTiet() : ''}"></td>
+
+
+                <td>
+
+                    <button class="btn btn-warning" sec:authorize="hasRole('ADMIN')" >
+                        <a th:href="@{/notebook/delete(id=${notebook.id})}" class="btn btn-warning btn-sm " >
+                            Delete
+                        </a>
+                    </button>
+
+<!--                    <button class="btn btn-primary" sec:authorize="hasAnyRole('ADMIN','MANAGER')" >-->
+<!--                        <a th:href="@{/class/showListClass(id=${notebook.id})}"  class="btn btn-sm ">-->
+<!--                            Choose Class-->
+<!--                        </a>-->
+<!--                    </button>-->
+                    <button id="successBtn" class="btn btn-danger" sec:authorize="hasRole('USER')" th:if="${notebook.staff.username eq user.username}">
+                        <a th:href="@{/notebook/studentCancel(id=${notebook.id},username=${user.username})}" class="btn btn-sm">
+                            Cancel
+                        </a>
+                    </button>
+                    <button class="btn btn-warning" sec:authorize="hasRole('ADMIN')" th:object="${diem}" th:if="${diem != null}">
+                        <form  th:action="@{/diem/update-notebook(id=${notebook.id})}" method="post">
+                            <!-- Your form fields here -->
+                            <div >
+                                <input type="hidden" th:field="*{idDiem}"/>
+                                <input type="hidden" th:field="*{diemChuyenCan}"/>
+                                <input type="hidden" th:field="*{diemGiuaKi}"/>
+                                <input type="hidden" th:field="*{diemCuoiKi}"/>
+                                <input type="hidden" th:field="*{diemTongKet}"/>
+                            </div>
+                            <input type="submit" value="Choose" class="btn btn-sm "/>
+                        </form>
+                    </button>
+
+<!--          <div th:with="isEnrolled=false, found=false">-->
+<!--                        &lt;!&ndash; Kiểm tra xem notebook.id có trong danh sách đã đăng ký hay không &ndash;&gt;-->
+<!--              <span th:each="studentIntoNotebook : ${studentIntoNotebooks}" th:if="${!found}" >-->
+<!--                    <span th:if="${notebook.id == studentIntoNotebook.notebook.id and studentIntoNotebook.user.username==#authentication.principal.username}" >-->
+
+<!--                        <span th:with="isEnrolled=true, found=true">-->
+<!--                        </span>-->
+<!--                    </span>-->
+<!--             </span>-->
+<!--          </div>-->
+                        <!-- Hiển thị nút đăng ký hoặc nút đăng ký thành công tùy thuộc vào giá trị của biến -->
+
+<!--                        <span th:if="${notebook.id != studentIntoNotebook.notebook.id or studentIntoNotebook.checkSignUp!=true and studentIntoNotebook.user.username==#authentication.principal.username}">-->
+<!--                        <button id="registerBtn" class="btn btn-primary" sec:authorize="hasRole('USER')"  th:if="${notebook.staff != #authentication.principal.username}">-->
+<!--                            <a th:href="@{/notebook/studentEnroll(id=${notebook.id},username=${#authentication.principal.username})}" class="btn btn-sm">-->
+<!--                                Register-->
+<!--                            </a>-->
+<!--                        </button>-->
+<!--&lt;!&ndash;                        </span>&ndash;&gt;-->
+<!--&lt;!&ndash;                    <span th:each="studentIntoNotebook : ${studentIntoNotebooks}">&ndash;&gt;-->
+<!--&lt;!&ndash;        <span th:if="${notebook.id == studentIntoNotebook.notebook.id and studentIntoNotebook.user.username==#authentication.principal.username} ">&ndash;&gt;-->
+<!--&lt;!&ndash;            &lt;!&ndash; Hiển thị nút khi có sự trùng khớp &ndash;&gt;&ndash;&gt;-->
+<!--            <button id="successBtn" class="btn btn-danger" sec:authorize="hasRole('USER')" th:if="${notebook.staff != null and notebook.staff == #authentication.principal.username}">-->
+<!--                <a th:href="@{/notebook/studentCancel(id=${notebook.id},username=${#authentication.principal.username})}" class="btn btn-sm">-->
+<!--                    Cancel-->
+<!--                </a>-->
+<!--            </button>-->
+<!--        </span>-->
+<!--    </span>-->
+
+
+
+
+
+                    
+                </td>
+                <!-- Add more cells for other class attributes -->
+            </tr>
+        </table>
+    </div>
+<div class="container" sec:authorize="hasRole('USER')" th:object="${user}">
+
+
+    <h1>Register for the course</h1>
+    <table   class="table table-dark table-striped-columns table-hover" th:if="${user.khoa != null}">
+        <tr class="table-success">
+            <th>ID</th>
+            <th>Subject Name</th>
+            <th>Home room teacher</th>
+            <th>School start date</th>
+            <th>School end date</th>
+            <th>Number of periods</th>
+            <th>Class room</th>
+            <th>Semester</th>
+            <th>quantity</th>
+            <th>Edit</th>
+            <!-- Add more columns for other class attributes -->
+        </tr>
+        <!--th:each="user : ${class.users}" th:if="${class.users != null and (user.specialization.getSpecializedCode() eq class.subjects.maChuyenNghanh.getSpecializedCode() ) }"-->
+        <!--th:if="${class.users != null and #lists.contains(class.users.specialization.getSpecializedCode(), class.subjects.maChuyenNghanh.getSpecializedCode() ) }"-->
+<!--        th:if="${class.subjects != null and class.subjects.maChuyenNghanh != null and class.subjects.maChuyenNghanh.getSpecializedCode() eq user.specialization.getSpecializedCode()}"-->
+        <tr th:each="class : ${classSchoolList}" class="table-success"  th:if="${class.subjects != null and class.subjects.maChuyenNghanh != null and user != null and class.subjects.maChuyenNghanh.getSpecializedCode() eq user.specialization.getSpecializedCode()}">
+            <td th:text="${class.idClass}"></td>
+            <!--                <td th:text="${class.lop}"></td>-->
+            <td th:text="${class.subjects != null and class.subjects.getSubjectName() != null ? class.subjects.getSubjectName() : '' }"></td>
+            <td th:text="${class.homeroomTeacher != null and class.homeroomTeacher.getFullName() != null ? class.homeroomTeacher.getFullName() : '' }"></td>
+            <td th:text="${class.schoolYear}"></td>
+            <td th:text="${class.endDay}"></td>
+            <td th:text="${class.soTiet}"></td>
+            <td th:text="${class.phongHoc}"></td>
+            <td th:text="${class.kyHoc != null and class.kyHoc.getHocKi() != null ? class.kyHoc.getHocKi() : ''}"></td>
+            <td th:text="${#lists.size(class.users) + '/' + 45}"></td>
+
+
+            <td>
+                <button id="registerBtn" class="btn btn-primary" sec:authorize="hasRole('USER')"  th:if="${class.users != null and not #lists.contains(class.users.![username], user.username) and #lists.size(class.users) < 45}">
+                    <a th:href="@{/class/studentEnroll(id=${class.idClass},username=${user.username})}" class="btn btn-sm">
+                        Register
+                    </a>
+                </button>
+
+                <button  class="btn btn-success" sec:authorize="hasRole('USER')"  th:if="${class.users != null and #lists.contains(class.users.![username], user.username)}" >
+                    <a class="btn btn-sm">
+                        Registered successfully
+                    </a>
+                </button>
+            </td>
+            <!-- Add more cells for other class attributes -->
+        </tr>
+    </table>
+</div>
+
+<script>
+    $(document).ready(function () {
+        // Khi trang được tải, kiểm tra xem đã đăng ký thành công hay chưa
+        var isEnrolled = $("#successBtn").length > 0;
+
+        // Ẩn nút đăng ký nếu đã đăng ký thành công
+        if (isEnrolled) {
+            $("#registerBtn").hide();
+        }
+    });
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+
+</body>
+</html>

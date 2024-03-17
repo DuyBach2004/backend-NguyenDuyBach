@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" >
+<head>
+  <meta charset="UTF-8">
+  <title>Home</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+</head>
+<body>
+<form action="#" th:action="@{/logout}" method="POST">
+  <!--                                <div class="head__item-user-inner&#45;&#45;item">-->
+  <!--                                <input type="submit" class="btn btn-info" value="Đăng xuất"/>-->
+  <button type="submit" class="head__item-user-inner--item" style="    border-top-color: currentcolor;
+    border-bottom-style: none; border-right-style: none;border-left-style: none;" >Đăng xuất </button>
+</form>
+Xin chào<b><span sec:authentication="principal.username" ></span></b>
+<span sec:authentication="principal.authorities" ></span>
+<button class="btn btn-info" sec:authorize="hasAnyRole('ADMIN','MANAGER')" >
+  <a th:href="@{/diem/create}" class="btn btn-info btn-sm " >
+    Thêm
+  </a>
+</button>
+
+
+<!--                                </div>-->
+
+<div class="container" >
+  <h1>Score</h1>
+  <table class="table table-dark table-striped-columns table-hover">
+    <tr class="table-success">
+      <th>ID</th>
+      <th>Class code</th>
+      <th>Teacher</th>
+      <th>Subject name</th>
+      <th>Student code</th>
+      <th>Regular points</th>
+      <th>Midterm score</th>
+      <th>Final score</th>
+      <th>Final grade</th>
+      <th sec:authorize="hasAnyRole('ADMIN','TEACHER')">Edit</th>
+      <!-- Add more columns for other class attributes getNumberOfCredits() -->
+    </tr>
+    <tr th:each="diem : ${diems}" class="table-success" sec:authorize="hasRole('ADMIN')">
+      <td th:text="${diem.idDiem}"></td>
+      <td th:text="${diem.notebook != null and diem.notebook.classSchool != null ? diem.notebook.classSchool.getIdClass() : ''}"></td>
+      <td th:text="${diem.notebook != null and diem.notebook.classSchool != null ? diem.notebook.classSchool.homeroomTeacher.getFullName() : ''}"></td>
+      <td th:text="${diem.notebook != null and diem.notebook.classSchool != null and diem.notebook.classSchool.subjects != null ? diem.notebook.classSchool.subjects.getSubjectName() : ''}"></td>
+      <td th:text="${diem.notebook != null and diem.notebook.staff != null ? diem.notebook.staff.getUsername() : ''}"></td>
+      <td th:text="${diem.diemChuyenCan}"></td>
+      <td th:text="${diem.diemGiuaKi}"></td>
+      <td th:text="${diem.diemCuoiKi}"></td>
+      <td th:text="${diem.diemTongKet}"></td>
+
+      <td>
+
+        <button class="btn btn-warning" sec:authorize="hasRole('ADMIN')" >
+          <a th:href="@{/diem/delete(id=${diem.idDiem})}" class="btn btn-warning btn-sm " >
+            Delete
+          </a>
+        </button>
+        <button class="btn btn-success" sec:authorize="hasAnyRole('ADMIN','MANAGER')" >
+          <a th:href="@{/diem/showPageUpdate(id=${diem.idDiem})}" class="btn  btn-sm ">
+            Update
+          </a>
+        </button>
+<!--        <button class="btn btn-warning" sec:authorize="hasRole('ADMIN')" >-->
+<!--          <a th:href="@{/notebook/showListNote-diem(id=${diem.idDiem})}" class="btn btn-warning btn-sm " >-->
+<!--            Choose Class-->
+<!--          </a>-->
+<!--        </button>-->
+<!--        <div th:object="${notebook}" th:if="${notebook != null}">-->
+<!--          <button class="btn btn-info" sec:authorize="hasAnyRole('ADMIN','MANAGER')" >-->
+<!--            &lt;!&ndash;                    <a class="btn btn-sm " th:href="@{/class/updateTeacher(TeacherId=${teacher.staff_id})}" >&ndash;&gt;-->
+<!--            &lt;!&ndash;                        chọn&ndash;&gt;-->
+<!--            &lt;!&ndash;                    </a>&ndash;&gt;-->
+<!--            <form  th:action="@{/notebook/updateClass(ClassId=${class.class_id})}" method="post">-->
+<!--              &lt;!&ndash; Your form fields here &ndash;&gt;-->
+<!--              <div  th:if="${notebook != null}">-->
+<!--                <input type="hidden" th:field="*{id}"/>-->
+<!--                <input type="hidden" th:field="*{numberOfTeachingPeriods}"/>-->
+<!--                <input type="hidden" th:field="*{staff}"/>-->
+<!--                <input type="hidden" th:field="*{subjects}"/>-->
+<!--              </div>-->
+<!--              <input type="submit" value="Choose" class="btn btn-sm "/>-->
+<!--            </form>-->
+
+
+<!--          </button>-->
+<!--        </div>-->
+
+
+      </td>
+      <!-- Add more cells for other class attributes -->
+    </tr>
+    <tr th:each="diem : ${diems}" class="table-success" sec:authorize="hasRole('TEACHER')" th:if="${diem.notebook.staff.getUsername() eq #authentication.principal.username}">
+      <td th:text="${diem.idDiem}"></td>
+      <td th:text="${diem.notebook != null and diem.notebook.classSchool != null ? diem.notebook.classSchool.getIdClass() : ''}"></td>
+      <td th:text="${diem.notebook != null and diem.notebook.classSchool != null ? diem.notebook.classSchool.homeroomTeacher.getFullName() : ''}"></td>
+      <td th:text="${diem.notebook != null and diem.notebook.classSchool != null and diem.notebook.classSchool.subjects != null ? diem.notebook.classSchool.subjects.getSubjectName() : ''}"></td>
+      <td th:text="${diem.notebook != null and diem.notebook.staff != null ? diem.notebook.staff.getUsername() : ''}"></td>
+      <td th:text="${diem.diemChuyenCan}"></td>
+      <td th:text="${diem.diemGiuaKi}"></td>
+      <td th:text="${diem.diemCuoiKi}"></td>
+      <td th:text="${diem.diemTongKet}"></td>
+      <button class="btn btn-success" >
+        <a th:href="@{/diem/showPageUpdate(id=${diem.idDiem})}" class="btn  btn-sm ">
+          Update
+        </a>
+      </button>
+    </tr>
+    <tr th:each="diem : ${diems}" class="table-success" sec:authorize="hasRole('USER')" th:if="${diem.notebook.staff.getUsername() eq #authentication.principal.username}">
+      <td th:text="${diem.idDiem}"></td>
+      <td th:text="${diem.notebook != null and diem.notebook.classSchool != null ? diem.notebook.classSchool.getIdClass() : ''}"></td>
+      <td th:text="${diem.notebook != null and diem.notebook.classSchool != null ? diem.notebook.classSchool.homeroomTeacher.getFullName() : ''}"></td>
+      <td th:text="${diem.notebook != null and diem.notebook.classSchool != null and diem.notebook.classSchool.subjects != null ? diem.notebook.classSchool.subjects.getSubjectName() : ''}"></td>
+      <td th:text="${diem.notebook != null and diem.notebook.staff != null ? diem.notebook.staff.getUsername() : ''}"></td>
+      <td th:text="${diem.diemChuyenCan}"></td>
+      <td th:text="${diem.diemGiuaKi}"></td>
+      <td th:text="${diem.diemCuoiKi}"></td>
+      <td th:text="${diem.diemTongKet}"></td>
+    </tr>
+  </table>
+</div>
+<!--ngăn người dùng quay lại trang đăng nhập -->
+<script>
+  window.onbeforeunload = function() {
+      if (window.location.pathname == '/showLoginPage') {
+          window.location.href = '/home';
+          return false;
+      }
+  }
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+
+</body>
+</html>

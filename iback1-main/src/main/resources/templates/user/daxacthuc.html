@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Xác thực email</title>
+    <link rel="stylesheet" th:href="@{/css/xacthucmail.css}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+<div class="contanier" th:object="${user}">
+    <!-- Header -->
+
+
+    <!-- Header -->
+    <div class="header-home">
+        <div class="header-home-left">
+            <div class="header-home__image">
+                <a th:href="@{/homeUser}"><img th:src="@{/image/logo.png}" alt="Ảnh logo" class="header-home__image--home"></a>
+            </div>
+            <div class="header-home__seach">
+                <form action="#">
+                    <input class="seach-bar__input" type="text" id="k" name="k" langid="header-search-placeholder" placeholder="Tìm kiếm..." required="">
+                    <button class="seach-bar__button" type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
+                </form>
+            </div>
+        </div>
+        <div class="header-home-right">
+            <div class="header-home__1">
+                <a href="/dashboard.html" title="" class="header-home-a">
+                    <span><i class="fa fa-home" aria-hidden="true"></i></span>&nbsp
+                    Trang chủ
+                </a>
+            </div>
+            <div class="header-home__2">
+                <a id="spanBell" href="/sinh-vien-tin-tuc-thong-bao.html" title="" class="header-home-a"><span>
+                        <i class="fa fa-home" aria-hidden="true"></i></span>&nbspTin tức
+                </a>
+            </div>
+            <div class="header-home__3">
+                <div class="header-home__3--dropdown">
+                    <div class="header-home__3-div--image"><img th:src="*{avatar != null ? '/avatar/'+avatar : '/image/default-avatar.png'}" alt="avatar" class="header-home__3-image"></div>
+                    <div  class="header-home__3-div--fullname"><a   href="#" title="" style="margin-right: 5px;" class="header-home-a header-home-a--fullname" ><span th:text="*{firstname+' '+lastname}"></span> </a>
+                        <i class="fa fa-caret-down user-account-name-caret-down" aria-hidden="true" style="color: #667580;font-size: 10px;"></i></div>
+                </div>
+                <div class="header-home__3--dropdown-element">
+                    <a th:href="@{/user/showPageIfUser(username=${#authentication.principal.username})}" class="nav-right__dangkihocphan-a" style="color: var(--importain--color);">
+                        <div class="header-home__3--dropdown-element--1">Thông tin cá nhân</div>
+                    </a>
+                    <a href="" class="nav-right__dangkihocphan-a" style="color: var(--importain--color);" th:href="@{/user/UpdateEmail(username=${#authentication.principal.username})}">
+                        <div class="header-home__3--dropdown-element--1">Xác thực email
+                            <span class="header-home__3--dropdown-element--1-span" th:if="${user.trangThaiXacThuc}">Đã xác thực</span>
+                            <span class="header-home__3--dropdown-element--1-span-false" th:if="${!user.trangThaiXacThuc}">Chưa xác thực</span>
+                        </div>
+                    </a>
+                    <a href="" class="nav-right__dangkihocphan-a" style="color: var(--importain--color);">
+                        <div class="header-home__3--dropdown-element--1">
+                            <form action="#" th:action="@{/logout}" method="POST">
+                                <!--                                <div class="head__item-user-inner&#45;&#45;item">-->
+                                <!--                                <input type="submit" class="btn btn-info" value="Đăng xuất"/>-->
+                                <input type="submit"  value="Đăng xuất" class="input-none"> </input>
+                            </form>
+                        </div>
+                    </a>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- nav -->
+    <div class="nav">
+        <div class="nav-container">
+            <h1 class="nav-container__title-2">Xác thực email</h1>
+            <h1 style="margin-bottom: 30px;font-size: 15px;color: #20d64e;">Tài khoản của bạn đã được xác thực </h1>
+
+
+            <a th:href="@{/homeUser}">
+                <button  type="submit" class="nav-container__button">Quay lại trang chủ</button>
+            </a>
+
+
+        </div>
+    </div>
+
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+    var headerHome = document.querySelector(".header-home__3");
+
+    headerHome.addEventListener("click", function () {
+        var dropdownElement = document.querySelector(".header-home__3--dropdown-element");
+
+        // Kiểm tra trạng thái hiển thị của dropdown và thay đổi nó
+        if (dropdownElement.style.display === "block") {
+            dropdownElement.style.display = "none";
+        } else {
+            dropdownElement.style.display = "block";
+        }
+    });
+});
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Đăng ký học phần </title>
+         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" integrity="sha512-NhSC1YmyruXifcj/KFRWoC561YpHpc5Jtzgvbuzx5VozKpWvQ+4nXhPdFgmx8xqexRcpAglTj9sIBWINXa8x5w==" crossorigin="anonymous" referrerpolicy="no-referrer">
+
+        <link rel="stylesheet" type="text/css" th:href="@{/css/dangkyhocphan.css}">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    </head>
+</head>
+<body>
+<div class="container" th:object="${user}">
+    <input type="hidden" th:field="*{username}" />
+    <input type="hidden" th:field="*{password}" />
+    <input type="hidden" th:field="*{roles}" />
+    <input type="hidden" th:field="*{studentId.studentId}" />
+    <input type="hidden" th:field="*{khoa}" />
+    <input type="hidden" th:field="*{lop}" />
+    <input type="hidden" th:field="*{firstname}" />
+    <input type="hidden" th:field="*{lastname}" />
+    <input type="hidden" th:field="*{location}" />
+    <input type="hidden" th:field="*{email}" />
+    <input type="hidden" th:field="*{specialization}" />
+    <input type="hidden" th:field="*{avatar}" />
+    <div class="header">
+        <a th:href="@{/homeUser}"> <img th:src="@{/image/banner.png}"  alt=""> </a>
+    </div>
+    <div class="nav" th:if="${user.specialization != null}">
+        <h2 class="nav-title">ĐĂNG KÍ HỌC PHẦN</h2>
+        <table class="nav-table__1"  >
+            <thead class="nav-thead__1">
+            <tr  class="nav-tr__1">
+                <th class="nav-th__1">Mã LHP</th>
+                <th class="nav-th__1--mh">Môn học</th>
+                <th class="nav-th__1--gv">Giảng viên</th>
+                <th class="nav-th__1">Ngày bắt đầu</th>
+                <th class="nav-th__1">Tổng số tiết</th>
+                <th class="nav-th__1">Phòng học</th>
+                <th class="nav-th__1">Số lượng</th>
+                <th class="nav-th__1">Đã đăng kí</th>
+                <th class="nav-th__1">Trạng thái </th>
+            </tr>
+            </thead>
+            <tbody >
+            <tr class="nav-tr__2" th:each="class : ${classSchoolList}"   th:if="${class.subjects != null and class.subjects.maChuyenNghanh != null and user != null and class.subjects.maChuyenNghanh.getSpecializedCode() eq user.specialization.getSpecializedCode()}">
+                <td class="nav-td__1"><span th:text="${class.idClass}"></span></td>
+                <td class="nav-td__1--mh"><span th:text="${class.subjects != null and class.subjects.getSubjectName() != null ? class.subjects.getSubjectName() : '' }"></span></td>
+                <td class="nav-td__1--gv"><span th:text="${class.homeroomTeacher != null and class.homeroomTeacher.getFullName() != null ? class.homeroomTeacher.getFullName() : '' }"></span></td>
+                <td class="nav-td__1"><span th:text="${class != null and class.schoolYear != null ? class.schoolYear : ''}"></span></td>
+                <td class="nav-td__1"><span th:text="${class != null and class.soTiet != null ? class.soTiet : '' }"></span></td>
+                <td class="nav-td__1"><span th:text="${class != null and class.phongHoc != null  ? class.phongHoc : '' }"></span></td>
+                <td class="nav-td__1"><span></span></td>
+                <td class="nav-td__1"><span th:text="${#lists.size(class.users) + '/' + 45}"></span></td>
+                <td class="nav-td__1">
+                    <!-- <span class="nav-span__1-check">Đăng kí thành công</span> -->
+<!--                    <button class="nav-span__1-chec-dk">Đăng kí</button>-->
+                    <button id="registerBtn" class="nav-span__1-chec-dk" sec:authorize="hasRole('USER')"  th:if="${class.users != null and not #lists.contains(class.users.![username], user.username) and #lists.size(class.users) < 45}">
+                        <a th:href="@{/class-user/studentEnroll(id=${class.idClass},username=${user.username})}" class="nav-a">
+                            Đăng kí
+                        </a>
+                    </button>
+
+                    <span  class="nav-span__1-check" sec:authorize="hasRole('USER')"  th:if="${class.users != null and #lists.contains(class.users.![username], user.username)}" >
+                        <a class="">
+                            Đã đăng kí
+                        </a>
+                    </span>
+                </td>
+
+
+            </tr>
+            </tbody>
+        </table>
+
+        <h2 class="nav-title-2">LỚP HỌC PHẦN ĐÃ ĐĂNG KÍ TRONG HỌC KÌ NÀY </h2>
+        <table class="nav-table__1">
+            <thead class="nav-thead__1">
+            <tr  class="nav-tr__1" >
+                <th class="nav-th__1">Mã LHP</th>
+                <th class="nav-th__1--mh">Môn học</th>
+                <th class="nav-th__1--gv">Giảng viên</th>
+                <th class="nav-th__1">Số tín chỉ</th>
+                <th class="nav-th__1">Tổng số tiết</th>
+                <th class="nav-th__1">Nộp học phí</th>
+                <th class="nav-th__1">Hạn nộp</th>
+                <th class="nav-th__1">Trạng thái </th>
+            </tr>
+            </thead>
+            <tbody >
+            <tr class="nav-tr__2" th:each="notebook : ${notebookList}"  th:if="${notebook.staff.username != null and user != null and notebook.staff.username eq user.username or #authorization.expression('hasRole(''ADMIN'')') }">
+                <td class="nav-td__1" ><span th:text="${notebook.id}"></span></td>
+                <td class="nav-td__1--mh"><span th:text="${notebook.classSchool != null and notebook.classSchool.subjects != null ? notebook.classSchool.subjects.getSubjectName() : ''}"></span></td>
+                <td class="nav-td__1--gv"><span th:text="${notebook.classSchool != null and notebook.classSchool.homeroomTeacher != null ? notebook.classSchool.homeroomTeacher.getFullName() : ''}"></span></td>
+                <td class="nav-td__1"><span th:text="${notebook.classSchool != null and notebook.classSchool.subjects != null ? notebook.classSchool.subjects.getNumberOfCredits() : ''}"></span></td>
+                <td class="nav-td__1"><span th:text="${notebook.classSchool != null and notebook.classSchool.getSoTiet() != null ? notebook.classSchool.getSoTiet() : ''}"></span></td>
+                <td class="nav-td__1"></td>
+                <td class="nav-td__1"></td>
+                <td class="nav-td__1">
+                    <!-- <span class="nav-span__1-check">Đăng kí thành công</span> -->
+                    <button id="successBtn" class="nav-span__1-chec-huy" sec:authorize="hasRole('USER')" th:if="${notebook.staff.username eq user.username}">
+                        <a th:href="@{/notebook-user/studentCancel(id=${notebook.id},username=${user.username})}" class="nav-a">
+                            Cancel
+                        </a>
+                    </button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+    </div>
+    <h1 th:if="${user.specialization == null}" >
+        Hiện tại bạn chưa được xét duyệt chuyên nghành, hãy đợi khoa xác định chuyên nghành
+    </h1>
+</div>
+</body>
+</html>

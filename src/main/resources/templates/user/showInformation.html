@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lịch học</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" integrity="sha512-NhSC1YmyruXifcj/KFRWoC561YpHpc5Jtzgvbuzx5VozKpWvQ+4nXhPdFgmx8xqexRcpAglTj9sIBWINXa8x5w==" crossorigin="anonymous" referrerpolicy="no-referrer">
+
+    <link rel="stylesheet" type="text/css" th:href="@{/css/thongtincanhan.css}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+</head>
+<body>
+<div class="contanier"  th:object="${user}">
+    <div class="header-home">
+        <div class="header-home-left">
+            <div class="header-home__image">
+                <a th:href="@{/homeUser}"><img th:src="@{/image/logo.png}" alt="Ảnh logo" class="header-home__image--home"></a>
+            </div>
+            <div class="header-home__seach">
+                <form action="#">
+                    <input class="seach-bar__input" type="text" id="k" name="k" langid="header-search-placeholder" placeholder="Tìm kiếm..." required="">
+                    <button class="seach-bar__button" type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
+                </form>
+            </div>
+        </div>
+        <div class="header-home-right">
+            <div class="header-home__1">
+                <a href="/dashboard.html" title="" class="header-home-a">
+                    <span><i class="fa fa-home" aria-hidden="true"></i></span>&nbsp
+                    Trang chủ
+                </a>
+            </div>
+            <div class="header-home__2">
+                <a id="spanBell" href="/sinh-vien-tin-tuc-thong-bao.html" title="" class="header-home-a"><span>
+                        <i class="fa fa-home" aria-hidden="true"></i></span>&nbspTin tức
+                </a>
+            </div>
+            <div class="header-home__3">
+                <div class="header-home__3--dropdown">
+                    <div class="header-home__3-div--image"><img th:src="*{avatar != null ? '/avatar/'+avatar : '/image/default-avatar.png'}" alt="avatar" class="header-home__3-image"></div>
+                    <div  class="header-home__3-div--fullname"><a   href="#" title="" style="margin-right: 5px;" class="header-home-a header-home-a--fullname" ><span th:text="*{firstname+' '+lastname}"></span> </a>
+                        <i class="fa fa-caret-down user-account-name-caret-down" aria-hidden="true" style="color: #667580;font-size: 10px;"></i></div>
+                </div>
+                <div class="header-home__3--dropdown-element">
+                    <a th:href="@{/user/showPageIfUser(username=${#authentication.principal.username})}" class="nav-right__dangkihocphan-a" style="color: var(--importain--color);">
+                        <div class="header-home__3--dropdown-element--1">Thông tin cá nhân</div>
+                    </a>
+                    <a href="" class="nav-right__dangkihocphan-a" style="color: var(--importain--color);" th:href="@{/user/UpdateEmail(username=${#authentication.principal.username})}">
+                        <div class="header-home__3--dropdown-element--1">Xác thực email
+                            <span class="header-home__3--dropdown-element--1-span" th:if="${user.trangThaiXacThuc}">Đã xác thực</span>
+                            <span class="header-home__3--dropdown-element--1-span-false" th:if="${!user.trangThaiXacThuc}">Chưa xác thực</span>
+                        </div>
+                    </a>
+                    <a href="" class="nav-right__dangkihocphan-a" style="color: var(--importain--color);">
+                        <div class="header-home__3--dropdown-element--1">
+                            <form action="#" th:action="@{/logout}" method="POST">
+                                <!--                                <div class="head__item-user-inner&#45;&#45;item">-->
+                                <!--                                <input type="submit" class="btn btn-info" value="Đăng xuất"/>-->
+                                <input type="submit"  value="Đăng xuất" class="input-none"> </input>
+                            </form>
+                        </div>
+                    </a>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="nav">
+        <div class="nav-left">
+
+        </div>
+
+        <div class="nav-right" >
+            <div class="nav-right__element-container">
+                <div class="nav-right__element">
+                    <div class="nav-right__element1">
+                        <div class="nav-right__element1-content">
+                            <form action="" th:action="@{/user/updateAvatar}" method="post" enctype="multipart/form-data">
+                                <div  class="nav-right__element1-content--form">
+                                    <div class="nav-right__element1-content--img">
+                                        <img th:src="*{avatar != null ? '/avatar/'+avatar : '/image/default-avatar.png'}" alt="" class="nav-right__element1-content--img-inner">
+                                    </div>
+                                    <div>
+<!--                                        <input type="file" id="file" class="nav-right__element1-content&#45;&#45;img-change" name="duongDanAnh"  >-->
+                                        <input type="file" id="duongDanAnh" class="nav-right__element1-content--img-change" name="duongDanAnh">
+                                        <label for="duongDanAnh" class="nav-right__element1-content--img-lable">Chọn ảnh</label>
+                                    </div>
+                                    <input type="hidden" th:field="*{username}" />
+                                    <input type="hidden" th:field="*{password}" />
+                                    <input type="hidden" th:field="*{roles}" />
+                                    <input type="hidden" th:field="*{studentId.studentId}" />
+                                    <input type="hidden" th:field="*{khoa}" />
+                                    <input type="hidden" th:field="*{lop}" />
+                                    <input type="hidden" th:field="*{firstname}" />
+                                    <input type="hidden" th:field="*{lastname}" />
+                                    <input type="hidden" th:field="*{location}" />
+                                    <input type="hidden" th:field="*{email}" />
+                                    <input type="hidden" th:field="*{specialization}" />
+
+
+                                    <input  type="submit" value="Lưu" name="submit" class="nav-right__element1-content--img-lable-input"/>
+                                </div>
+                            </form>
+                            <div class="nav-right__element2-content">
+                                <span class="nav-right__element2-content--span">MSSV: </span>
+                                <span class="nav-right__element2-content--span-2" th:text="*{studentId.studentId}"></span>
+                            </div>
+                            <div class="nav-right__element2-content">
+                                <span class="nav-right__element2-content--span">Họ tên: </span>
+                                <span class="nav-right__element2-content--span-2" th:text="*{firstname+' '+lastname}"></span>
+                            </div>
+                            <div class="nav-right__element2-content">
+                                <span class="nav-right__element2-content--span">Giới tính: </span>
+                                <span class="nav-right__element2-content--span-2" th:text="*{studentId.gioitinh}"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="nav-right__element2">
+                        <div>
+                            <h2 class="nav-right__lichhoc-title">Thông tin học vấn</h2>
+                            <div class="nav-right__element2-div">
+                                <div class="nav-right__element2--div-1">
+                                    <div class="nav-right__element2-content">
+                                        <span class="nav-right__element2-content--span">Trạng thái: </span>
+                                        <span class="nav-right__element2-content--span-2">Đang học</span>
+                                    </div>
+                                    <div class="nav-right__element2-content">
+                                        <span class="nav-right__element2-content--span">Lớp học: </span>
+                                        <span class="nav-right__element2-content--span-2" th:text="*{lop != null and lop.tenLop != null ? lop.tenLop : ''}"></span>
+                                    </div>
+                                    <div class="nav-right__element2-content">
+                                        <span class="nav-right__element2-content--span">Bậc đào tạo: </span>
+                                        <span class="nav-right__element2-content--span-2">Đại học</span>
+                                    </div>
+                                    <div class="nav-right__element2-content">
+                                        <span class="nav-right__element2-content--span">Khoa: </span>
+                                        <span class="nav-right__element2-content--span-2" th:text="*{khoa != null and khoa.tenKhoa != null ? khoa.tenKhoa : ''}" > </span>
+                                    </div>
+                                    <div class="nav-right__element2-content">
+                                        <span class="nav-right__element2-content--span">Chuyên ngành: </span>
+                                        <span class="nav-right__element2-content--span-2" th:text="*{specialization != null and specialization.specializedName != null ? specialization.specializedName : ''}"></span>
+                                    </div>
+                                </div>
+                                <div class="nav-right__element2--div-2">
+
+                                    <div class="nav-right__element2-content">
+                                        <span class="nav-right__element2-content--span">Ngày vào trường: </span>
+                                        <span class="nav-right__element2-content--span-2" th:text="*{studentId.dayIntoSchool != null ? studentId.dayIntoSchool : ''}"></span>
+                                    </div>
+                                    <div class="nav-right__element2-content">
+                                        <span class="nav-right__element2-content--span">Cơ sở: </span>
+                                        <span class="nav-right__element2-content--span-2"></span>
+                                    </div>
+                                    <div class="nav-right__element2-content">
+                                        <span class="nav-right__element2-content--span">Loại hình đào tạo: </span>
+                                        <span class="nav-right__element2-content--span-2">Đại học</span>
+                                    </div>
+                                    <div class="nav-right__element2-content">
+                                        <span class="nav-right__element2-content--span">Ngành: </span>
+                                        <span class="nav-right__element2-content--span-2" th:text="*{specialization != null and specialization.specializedName != null ? specialization.specializedName : ''}"></span>
+                                    </div>
+                                    <div class="nav-right__element2-content">
+                                        <span class="nav-right__element2-content--span">Khóa học: </span>
+                                        <span class="nav-right__element2-content--span-2" ></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="nav-right__element3">
+                    <div>
+                        <h2 class="nav-right__lichhoc-title-2">Thông tin cá nhân </h2>
+                        <div class="nav-right__element2--div-1-container">
+                            <div class="nav-right__element2--div-1">
+                                <div class="nav-right__element2-content">
+                                    <span class="nav-right__element2-content--span">Ngày sinh: </span>
+                                    <span class="nav-right__element2-content--span-2" th:text="*{studentId != null and studentId.birthday != null ? studentId.birthday : ''}"></span>
+                                </div>
+                                <div class="nav-right__element2-content">
+                                    <span class="nav-right__element2-content--span">Số CMND: </span>
+                                    <span class="nav-right__element2-content--span-2" th:text="*{studentId.cccd != null ? studentId.cccd : '' }"></span>
+                                </div>
+                                <div class="nav-right__element2-content">
+                                    <span class="nav-right__element2-content--span">Đối tượng: </span>
+                                    <span class="nav-right__element2-content--span-2">Đại học</span>
+                                </div>
+                                <div class="nav-right__element2-content">
+                                    <span class="nav-right__element2-content--span">Ngày vào Đoàn: </span>
+                                    <span class="nav-right__element2-content--span-2" th:text="*{studentId.ngayvaodoan}"></span>
+                                </div>
+                                <div class="nav-right__element2-content">
+                                    <span class="nav-right__element2-content--span">Điện thoại: </span>
+                                    <span class="nav-right__element2-content--span-2" th:text="*{studentId.sodienthoai }"> </span>
+                                </div>
+                            </div>
+                            <div class="nav-right__element2--div-2">
+
+                                <div class="nav-right__element2-content">
+                                    <span class="nav-right__element2-content--span">Địa chỉ liên hệ: </span>
+                                    <span class="nav-right__element2-content--span-2" th:text="*{studentId.tinhthanh != null and studentId.huyenquan != null and studentId.xa_phuong != null ? studentId.tinhthanh+'-'+studentId.huyenquan+'-'+studentId.xa_phuong : ''}"></span>
+                                </div>
+                                <div class="nav-right__element2-content">
+                                    <span class="nav-right__element2-content--span">Email: </span>
+                                    <span class="nav-right__element2-content--span-2" th:text="*{email != null ? email : ''}"></span>
+                                </div>
+                                <div class="nav-right__element2-content">
+                                    <span class="nav-right__element2-content--span">Tên ngân hàng: </span>
+                                    <span class="nav-right__element2-content--span-2"></span>
+                                </div>
+                                <div class="nav-right__element2-content">
+                                    <span class="nav-right__element2-content--span">Tên chủ tài khoản: </span>
+                                    <span class="nav-right__element2-content--span-2"></span>
+                                </div>
+                                <div class="nav-right__element2-content">
+                                    <span class="nav-right__element2-content--span">Số tài khoản: </span>
+                                    <span class="nav-right__element2-content--span-2"></span>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+    var headerHome = document.querySelector(".header-home__3");
+    var container = document.querySelector(".contanier");
+    headerHome.addEventListener("click", function () {
+        var dropdownElement = document.querySelector(".header-home__3--dropdown-element");
+
+        // Kiểm tra trạng thái hiển thị của dropdown và thay đổi nó
+        if (dropdownElement.style.display === "block") {
+            dropdownElement.style.display = "none";
+        } else {
+            dropdownElement.style.display = "block";
+        }
+    });
+    container.addEventListener("click", function () {
+        dropdownElement.style.display = "none";
+    });
+
+});
+
+</script>
+</body>

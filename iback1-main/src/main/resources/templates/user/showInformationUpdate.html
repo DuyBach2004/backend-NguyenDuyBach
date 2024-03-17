@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chỉnh sửa thông tin</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" integrity="sha512-NhSC1YmyruXifcj/KFRWoC561YpHpc5Jtzgvbuzx5VozKpWvQ+4nXhPdFgmx8xqexRcpAglTj9sIBWINXa8x5w==" crossorigin="anonymous" referrerpolicy="no-referrer">
+
+    <link rel="stylesheet" type="text/css" th:href="@{/css/chinhsuathongtin.css}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+</head>
+<body>
+<div class="contanier" th:object="${user}">
+
+    <div class="header-home">
+        <div class="header-home-left">
+            <div class="header-home__image">
+                <a th:href="@{/homeUser}"><img th:src="@{/image/logo.png}" alt="Ảnh logo" class="header-home__image--home"></a>
+            </div>
+            <div class="header-home__seach">
+                <form action="#">
+                    <input class="seach-bar__input" type="text" id="k" name="k" langid="header-search-placeholder" placeholder="Tìm kiếm..." required="">
+                    <button class="seach-bar__button" type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
+                </form>
+            </div>
+        </div>
+        <div class="header-home-right">
+            <div class="header-home__1">
+                <a href="/dashboard.html" title="" class="header-home-a">
+                    <span><i class="fa fa-home" aria-hidden="true"></i></span>&nbsp
+                    Trang chủ
+                </a>
+            </div>
+            <div class="header-home__2">
+                <a id="spanBell" href="/sinh-vien-tin-tuc-thong-bao.html" title="" class="header-home-a"><span>
+                        <i class="fa fa-home" aria-hidden="true"></i></span>&nbspTin tức
+                </a>
+            </div>
+            <div class="header-home__3">
+                <div class="header-home__3--dropdown">
+                    <div class="header-home__3-div--image"><img th:src="*{avatar != null ? '/avatar/'+avatar : '/image/default-avatar.png'}" alt="avatar" class="header-home__3-image"></div>
+                    <div  class="header-home__3-div--fullname"><a   href="#" title="" style="margin-right: 5px;" class="header-home-a header-home-a--fullname" ><span th:text="*{firstname+' '+lastname}"></span> </a>
+                        <i class="fa fa-caret-down user-account-name-caret-down" aria-hidden="true" style="color: #667580;font-size: 10px;"></i></div>
+                </div>
+                <div class="header-home__3--dropdown-element">
+                    <a th:href="@{/user/showPageIfUser(username=${#authentication.principal.username})}" class="nav-right__dangkihocphan-a" style="color: var(--importain--color);">
+                        <div class="header-home__3--dropdown-element--1">Thông tin cá nhân</div>
+                    </a>
+                    <a href="" class="nav-right__dangkihocphan-a" style="color: var(--importain--color);" th:href="@{/user/UpdateEmail(username=${#authentication.principal.username})}">
+                        <div class="header-home__3--dropdown-element--1">Xác thực email
+                            <span class="header-home__3--dropdown-element--1-span" th:if="${user.trangThaiXacThuc}">Đã xác thực</span>
+                            <span class="header-home__3--dropdown-element--1-span-false" th:if="${!user.trangThaiXacThuc}">Chưa xác thực</span>
+                        </div>
+                    </a>
+                    <a href="" class="nav-right__dangkihocphan-a" style="color: var(--importain--color);">
+                        <div class="header-home__3--dropdown-element--1">
+                            <form action="#" th:action="@{/logout}" method="POST">
+                                <!--                                <div class="head__item-user-inner&#45;&#45;item">-->
+                                <!--                                <input type="submit" class="btn btn-info" value="Đăng xuất"/>-->
+                                <input type="submit"  value="Đăng xuất" class="input-none-dx"> </input>
+                            </form>
+                        </div>
+                    </a>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <form action="#" th:action="@{/user/update-if}" method="post">
+        <input type="hidden" th:field="*{username}" />
+        <input type="hidden" th:field="*{password}" />
+        <input type="hidden" th:field="*{roles}" />
+        <input type="hidden" th:field="*{studentId.studentId}" />
+        <input type="hidden" th:field="*{khoa}" />
+        <input type="hidden" th:field="*{lop}" />
+        <input type="hidden" th:field="*{firstname}" />
+        <input type="hidden" th:field="*{lastname}" />
+        <input type="hidden" th:field="*{location}" />
+        <input type="hidden" th:field="*{specialization}" />
+        <input type="hidden" th:field="*{avatar}" />
+    <div class="nav">
+        <div class="nav-container"  >
+            <div class="nav-container__title">
+                <span>Cập nhật thông tin sinh viên</span>
+                <a href="" class="nav-container__title-a">
+                    <div class="nav-container__title-luu">
+<!--                        <button type="submit" class="input-none">Lưu </button>-->
+                        <input type="submit" class="input-none" value="Lưu">
+                    </div>
+                </a>
+            </div>
+            <div class="nav-container__element">
+                <div class="nav-container__element-header">
+                    <ul class="nav-container__element-header--ul">
+                        <li class="nav-container__element-header--ul-li">
+                            <a href="" class="nav-container__title-a">
+                                Thông tin cá nhân
+                            </a>
+                        </li>
+                        <!-- <li class="nav-container__element-header--ul-li">
+                            <a href="" class="nav-container__title-a">
+                                Quan hệ gia đình
+                            </a>
+                        </li> -->
+                    </ul>
+                </div>
+
+
+
+                    <div class="nav-container__element-nav">
+                        <!-- Park 1 -->
+                        <div class="nav-container__element-nav-1">
+                            <div class="nav-container__element-nav-1--element">
+                                <span class="nav-container__element-nav-1--element-span">Ngày sinh</span>
+                                <div  class="nav-container__element-nav-1--element-div">
+                                    <input type="date" class="nav-container__element-nav-1--element-div-input" th:field="*{studentId.birthday}" required>
+                                </div>
+                            </div>
+                            <div class="nav-container__element-nav-1--element">
+                                <span class="nav-container__element-nav-1--element-span">Dân tộc</span>
+                                <div  class="nav-container__element-nav-1--element-div">
+                                    <select name="" id="" class="nav-container__element-nav-1--element-div-input" th:field="*{studentId.dantoc}" placeholder="Chọn" required>
+                                        <option value="1">Kinh</option>
+                                        <option value="2">Thái</option>
+                                        <option value="3">Khơ-me</option>
+                                        <option value="4">Mường</option>
+                                        <option value="5">Mèo</option>
+                                        <option value="6">Nùng</option>
+                                        <option value="7">Tày</option>
+                                        <option value="8">Hoa</option>
+                                        <option value="9">Chăm</option>
+                                        <option value="10">Hán</option>
+                                        <option value="11">Gia-rai</option>
+                                        <option value="12">Ê-đê</option>
+                                        <option value="13">Chơ-ro</option>
+                                        <option value="14">Thổ</option>
+                                        <option value="15">Dao</option>
+                                        <option value="16">Hmông</option>
+                                        <option value="17">Cơ-ho</option>
+                                        <option value="19">Ba-na</option>
+                                        <option value="20">Ngái</option>
+                                        <option value="21">Xơ-đăng</option>
+                                        <option value="22">Sán Chay</option>
+                                        <option value="23">Sán Dìu</option>
+                                        <option value="24">Hrê</option>
+                                        <option value="25">Mnông</option>
+                                        <option value="26">Ra-glai</option>
+                                        <option value="27">Xtiêng</option>
+                                        <option value="28">Bru-Vân Kiều</option>
+                                        <option value="29">Giáy</option>
+                                        <option value="30">Cơ-tu</option>
+                                        <option value="31">Gié-Triêng</option>
+                                        <option value="32">Mạ</option>
+                                        <option value="33">Khơ-mú</option>
+                                        <option value="34">Co</option>
+                                        <option value="35">Ta-ôi</option>
+                                        <option value="36">Kháng</option>
+                                        <option value="37">Xinh-mun</option>
+                                        <option value="38">Hà Nhì</option>
+                                        <option value="39">Chu-ru</option>
+                                        <option value="40">Lào</option>
+                                        <option value="41">La Chi</option>
+                                        <option value="42">La Ha</option>
+                                        <option value="43">Phù Lá</option>
+                                        <option value="44">La Hủ</option>
+                                        <option value="45">Lự</option>
+                                        <option value="46">Lô Lô</option>
+                                        <option value="47">Chứt</option>
+                                        <option value="48">Mảng</option>
+                                        <option value="49">Pà Thẻn</option>
+                                        <option value="50">Cơ Lao</option>
+                                        <option value="51">Cống</option>
+                                        <option value="52">Bố Y</option>
+                                        <option value="53">Si La</option>
+                                        <option value="54">Pu Péo</option>
+                                        <option value="55">Brâu</option>
+                                        <option value="56">Ơ Đu</option>
+                                        <option value="57">Rơ-măm</option>
+                                        <option value="58">Ca dong</option>
+                                        <option value="59">Người nước ngoài
+                                        </option>
+                                        <option value="60">Khác</option>
+                                        <option value="61">Tà mun</option>
+
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="nav-container__element-nav-1--element">
+                                <span class="nav-container__element-nav-1--element-span">Tôn giáo</span>
+                                <div  class="nav-container__element-nav-1--element-div">
+                                    <!-- <input type="date" class="nav-container__element-nav-1--element-div-input"> -->
+                                    <select name=""  class="nav-container__element-nav-1--element-div-input" th:field="*{studentId.tongiao}" placeholder="Chọn" required><option value="">Chọn</option>
+                                        <option value="1">Phật giáo</option>
+                                        <option value="2">Thiên chúa</option>
+                                        <option value="3">Cao đài</option>
+                                        <option value="4">Hoà Hảo</option>
+                                        <option value="5">Hồi giáo</option>
+                                        <option value="6">Tin lành</option>
+                                        <option value="7">Không</option>
+                                        <option value="8">Khác</option>
+                                        <option value="9">Công giáo</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="nav-container__element-nav-1--element">
+                                <span class="nav-container__element-nav-1--element-span">Giới tính</span>
+                                <div class="nav-container__element-nav-1--element-div">
+                                    <span class="nav-container__element-nav-1--element-span">
+<!--                                        <input type="radio" name="gender" value="Nam" th:field="*{studentId.gioitinh}">Nam-->
+                                        <input class="form-check-input" type="radio" th:field="*{studentId.gioitinh}" value="Nam"  name="flexRadioDefault" id="flexRadioDefault1" required>
+                                        <label class="form-check-label" for="flexRadioDefault1">
+                                                Nam
+                                         </label>
+                                    </span>
+                                    <span class="nav-container__element-nav-1--element-span">
+<!--                                        <input type="radio" name="gender" value="Nữ" th:field="*{studentId.gioitinh}">Nữ-->
+                                        <input class="form-check-input" type="radio" th:field="*{studentId.gioitinh}" value="Nữ"  name="flexRadioDefault" id="2" required>
+                                        <label class="form-check-label" for="2">
+                                                Nữ
+                                         </label>
+                                    </span>
+                                </div>
+
+                            </div>
+
+                        </div>
+                        <!-- Park 2 -->
+                        <div class="nav-container__element-nav-1">
+                            <div class="nav-container__element-nav-1--element">
+                                <span class="nav-container__element-nav-1--element-span">Quốc tịch</span>
+                                <div  class="nav-container__element-nav-1--element-div">
+                                    <select type="date" class="nav-container__element-nav-1--element-div-input" th:field="*{studentId.quoctich}" required><option value="">Chọn</option>
+                                        <option value="1">Anh Quốc</option>
+                                        <option value="2">Bungari</option>
+                                        <option value="3">Cộng hoà DC Đức</option>
+                                        <option value="4">Cộng hoà LB Đức</option>
+                                        <option value="5">Cộng hoà LB Nga</option>
+                                        <option value="6">Hunggari</option>
+                                        <option value="7">Liên Xô (cũ)</option>
+                                        <option value="8">Slovakia</option>
+                                        <option value="9">Tiệp Khắc</option>
+                                        <option value="10">Trung Quốc</option>
+                                        <option value="11">Việt Nam</option>
+                                        <option value="12">Thái Lan</option>
+                                        <option value="13">Thuỵ Sỹ</option>
+                                        <option value="14">Cộng hoà Pháp</option>
+                                        <option value="15">Ấn Độ</option>
+                                        <option value="16">Cộng hoà CHDCND Lào</option>
+                                        <option value="17">Australia</option>
+                                        <option value="18">Đài Loan</option>
+                                        <option value="19">Nhật Bản</option>
+                                        <option value="20">AngoLa</option>
+                                        <option value="21">Mỹ</option>
+                                        <option value="22">Hàn Quốc</option>
+                                        <option value="23">Hồng Kông</option>
+                                        <option value="24">Hoa Kỳ</option>
+                                        <option value="25">Bỉ</option>
+                                        <option value="26">Hà Lan</option>
+                                        <option value="27">Singapore</option>
+                                        <option value="28">Canada</option>
+                                        <option value="29">Thụy Điển</option>
+                                        <option value="30">BắC Ai Len</option>
+                                        <option value="31">Thụy Sỹ</option>
+                                        <option value="32">BELARUS</option>
+                                        <option value="33">Indonesia</option>
+                                        <option value="34">philippines</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="nav-container__element-nav-1--element">
+                                <span class="nav-container__element-nav-1--element-span">Số CCCD</span>
+                                <div  class="nav-container__element-nav-1--element-div">
+                                    <input type="text" class="nav-container__element-nav-1--element-div-input" th:field="*{studentId.cccd}" required>
+
+                                </div>
+                            </div>
+                            <div class="nav-container__element-nav-1--element">
+                                <span class="nav-container__element-nav-1--element-span">Ngày cấp</span>
+                                <div  class="nav-container__element-nav-1--element-div">
+                                    <input type="date" class="nav-container__element-nav-1--element-div-input" th:field="*{studentId.ngaycap}" required>
+
+                                </div>
+                            </div>
+                            <div class="nav-container__element-nav-1--element">
+                                <span class="nav-container__element-nav-1--element-span">Nơi cấp</span>
+                                <div  class="nav-container__element-nav-1--element-div">
+                                    <select class="nav-container__element-nav-1--element-div-input" th:field="*{studentId.noicap}" placeholder="Chọn Tỉnh/ Thành phố" required><option value="">Chọn Tỉnh/ Thành phố</option>
+                                        <option value="1">Thành phố Hà Nội</option>
+                                        <option value="3">Thành phố Hải Phòng</option>
+                                        <option value="4">Thành phố Đà Nẵng</option>
+                                        <option value="5">Tỉnh Hà Giang</option>
+                                        <option value="6">Tỉnh Cao Bằng</option>
+                                        <option value="7">Tỉnh Lai Châu</option>
+                                        <option value="8">Tỉnh Lào Cai</option>
+                                        <option value="9">Tỉnh Tuyên Quang</option>
+                                        <option value="10">Tỉnh Lạng Sơn</option>
+                                        <option value="11">Tỉnh Bắc Kạn</option>
+                                        <option value="12">Tỉnh Thái Nguyên</option>
+                                        <option value="14">Tỉnh Sơn La</option>
+                                        <option value="15">Tỉnh Phú Thọ</option>
+                                        <option value="16">Tỉnh Vĩnh Phúc</option>
+                                        <option value="20">Hà Tây</option>
+                                        <option value="21">Tỉnh Hải Dương</option>
+                                        <option value="23">Tỉnh Hòa Bình</option>
+                                        <option value="27">Tỉnh Ninh Bình</option>
+                                        <option value="30">Tỉnh Hà Tĩnh</option>
+                                        <option value="31">Tỉnh Quảng Bình</option>
+                                        <option value="32">Tỉnh Quảng Trị</option>
+                                        <option value="38">Tỉnh Gia Lai</option>
+                                        <option value="39">Tỉnh Phú Yên</option>
+                                        <option value="45">Tỉnh Ninh Thuận</option>
+                                        <option value="50">Tỉnh Đồng Tháp</option>
+                                        <option value="51">Tỉnh An Giang</option>
+                                        <option value="58">Tỉnh Trà Vinh</option>
+                                        <option value="61">Tỉnh Cà Mau</option>
+                                        <option value="69">Tỉnh Bắc Giang</option>
+                                        <option value="77">Tỉnh Bình Dương</option>
+                                        <option value="88">Tỉnh Hà Nam</option>
+                                        <option value="89">Tỉnh Kon Tum</option>
+                                        <option value="96">Tỉnh Đồng Nai</option>
+                                        <option value="102">Tỉnh Bắc Ninh</option>
+                                        <option value="103">Tỉnh Nam Định</option>
+                                        <option value="104">Tỉnh Thừa Thiên Huế</option>
+                                        <option value="112">Tỉnh Bình Phước</option>
+                                        <option value="114">Tỉnh Quảng Ninh</option>
+                                        <option value="115">Tỉnh Lâm Đồng</option>
+                                        <option value="116">Tỉnh Long An</option>
+                                        <option value="117">Tỉnh Bà Rịa - Vũng Tàu</option>
+                                        <option value="119">Tỉnh Nghệ An</option>
+                                        <option value="120">Tỉnh Quảng Ngãi</option>
+                                        <option value="121">Tỉnh Bình Định</option>
+                                        <option value="122">Tỉnh Kiên Giang</option>
+                                        <option value="123">Tỉnh Hưng Yên</option>
+                                        <option value="124">Tỉnh Quảng Nam</option>
+                                        <option value="125">Tỉnh Bình Thuận</option>
+                                        <option value="126">Tỉnh Thái Bình</option>
+                                        <option value="127">Tỉnh Thanh Hóa</option>
+                                        <option value="128">Tỉnh Khánh Hòa</option>
+                                        <option value="129">Tỉnh Tây Ninh</option>
+                                        <option value="131">Thành phố Cần Thơ</option>
+                                        <option value="132">Tỉnh Bến Tre</option>
+                                        <option value="133">Tỉnh Bạc Liêu</option>
+                                        <option value="134">Tỉnh Yên Bái</option>
+                                        <option value="135">Tỉnh Tiền Giang</option>
+                                        <option value="137">Tỉnh Vĩnh Long</option>
+                                        <option value="138">Tỉnh Đắk Lắk</option>
+                                        <option value="139">Tỉnh Sóc Trăng</option>
+                                        <option value="140">Thành phố Hồ Chí Minh</option>
+                                        <option value="141">Tỉnh Điện Biên</option>
+                                        <option value="142">Tỉnh Đắk Nông</option>
+                                        <option value="143">Tỉnh Hậu Giang</option>
+                                        <option value="144">Hà Nội cũ</option>
+                                        <option value="145">Hà Tây cũ</option>
+                                        <option value="146">Hải Hưng</option>
+                                        <option value="147">Hà Bắc</option>
+                                        <option value="148">Sông Bé</option>
+                                        <option value="149">Nam Hà</option>
+                                        <option value="150">Hồng Kông</option>
+                                        <option value="151">Liên bang Nga</option>
+                                        <option value="152">Hà Nam Ninh</option>
+                                        <option value="153">Thái Lan</option>
+                                        <option value="154">Bộ quốc phòng</option>
+                                        <option value="155">Malaysia</option>
+                                        <option value="156">Tỉnh Hải Hưng</option>
+                                        <option value="157">Thuận Hải</option>
+                                        <option value="158">Cộng Hòa Bê-la-rút</option>
+                                        <option value="159">Cộng hòa Liên bang Đức</option>
+                                        <option value="160">Đài Loan</option>
+                                        <option value="161">Campuchia</option>
+                                    </select>
+
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <!-- Park 3 -->
+                        <div class="nav-container__element-nav-1">
+                            <div class="nav-container__element-nav-1--element">
+                                <span class="nav-container__element-nav-1--element-span">Số điện thoại</span>
+                                <div  class="nav-container__element-nav-1--element-div">
+                                    <input type="text" class="nav-container__element-nav-1--element-div-input" th:field="*{studentId.sodienthoai}" required>
+                                </div>
+                            </div>
+                            <div class="nav-container__element-nav-1--element">
+                                <span class="nav-container__element-nav-1--element-span">Địa chỉ Email</span>
+                                <div  class="nav-container__element-nav-1--element-div">
+                                    <input type="text" class="nav-container__element-nav-1--element-div-input" th:field="*{email}" required>
+
+                                </div>
+                            </div>
+                            <div class="nav-container__element-nav-1--element">
+                                <span class="nav-container__element-nav-1--element-span">Ngày vào Đoàn</span>
+                                <div  class="nav-container__element-nav-1--element-div">
+                                    <input type="date" class="nav-container__element-nav-1--element-div-input" th:field="*{studentId.ngayvaodoan}" required>
+
+                                </div>
+                            </div>
+                            <div class="nav-container__element-nav-1--element">
+                                <span class="nav-container__element-nav-1--element-span">Ngày vào Đảng</span>
+                                <div  class="nav-container__element-nav-1--element-div">
+                                    <input type="date" class="nav-container__element-nav-1--element-div-input" th:field="*{studentId.ngayvaodang}" required>
+
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <h2 class="nav-container__element-nav-1-h2">Quê quán</h2>
+
+                        <!-- Park 4 -->
+                        <div class="nav-container__element-nav-1">
+                            <div class="nav-container__element-nav-1--element">
+                                <span class="nav-container__element-nav-1--element-span">Tỉnh/ Thành phố</span>
+                                <div  class="nav-container__element-nav-1--element-div">
+<!--                                    th:field="*{studentId.tinhthanh}"-->
+                                    <input type="text" class="nav-container__element-nav-1--element-div-input" th:field="*{studentId.tinhthanh}" required>
+<!--                                    <select class="nav-container__element-nav-1&#45;&#45;element-div-input" th:field="*{studentId.tinhthanh}" placeholder="Chọn Tỉnh/ Thành phố" ><option value="" >Chọn Tỉnh/ Thành phố</option>-->
+<!--                                        <option value="1">Thành phố Hà Nội</option>-->
+<!--                                        <option value="3">Thành phố Hải Phòng</option>-->
+<!--                                        <option value="4">Thành phố Đà Nẵng</option>-->
+<!--                                        <option value="5">Tỉnh Hà Giang</option>-->
+<!--                                        <option value="6">Tỉnh Cao Bằng</option>-->
+<!--                                        <option value="7">Tỉnh Lai Châu</option>-->
+<!--                                        <option value="8">Tỉnh Lào Cai</option>-->
+<!--                                        <option value="9">Tỉnh Tuyên Quang</option>-->
+<!--                                        <option value="10">Tỉnh Lạng Sơn</option>-->
+<!--                                        <option value="11">Tỉnh Bắc Kạn</option>-->
+<!--                                        <option value="12">Tỉnh Thái Nguyên</option>-->
+<!--                                        <option value="14">Tỉnh Sơn La</option>-->
+<!--                                        <option value="15">Tỉnh Phú Thọ</option>-->
+<!--                                        <option value="16">Tỉnh Vĩnh Phúc</option>-->
+<!--                                        <option value="20">Hà Tây</option>-->
+<!--                                        <option value="21">Tỉnh Hải Dương</option>-->
+<!--                                        <option value="23">Tỉnh Hòa Bình</option>-->
+<!--                                        <option value="27">Tỉnh Ninh Bình</option>-->
+<!--                                        <option value="30">Tỉnh Hà Tĩnh</option>-->
+<!--                                        <option value="31">Tỉnh Quảng Bình</option>-->
+<!--                                        <option value="32">Tỉnh Quảng Trị</option>-->
+<!--                                        <option value="38">Tỉnh Gia Lai</option>-->
+<!--                                        <option value="39">Tỉnh Phú Yên</option>-->
+<!--                                        <option value="45">Tỉnh Ninh Thuận</option>-->
+<!--                                        <option value="50">Tỉnh Đồng Tháp</option>-->
+<!--                                        <option value="51">Tỉnh An Giang</option>-->
+<!--                                        <option value="58">Tỉnh Trà Vinh</option>-->
+<!--                                        <option value="61">Tỉnh Cà Mau</option>-->
+<!--                                        <option value="69">Tỉnh Bắc Giang</option>-->
+<!--                                        <option value="77">Tỉnh Bình Dương</option>-->
+<!--                                        <option value="88">Tỉnh Hà Nam</option>-->
+<!--                                        <option value="89">Tỉnh Kon Tum</option>-->
+<!--                                        <option value="96">Tỉnh Đồng Nai</option>-->
+<!--                                        <option value="102">Tỉnh Bắc Ninh</option>-->
+<!--                                        <option value="103">Tỉnh Nam Định</option>-->
+<!--                                        <option value="104">Tỉnh Thừa Thiên Huế</option>-->
+<!--                                        <option value="112">Tỉnh Bình Phước</option>-->
+<!--                                        <option value="114">Tỉnh Quảng Ninh</option>-->
+<!--                                        <option value="115">Tỉnh Lâm Đồng</option>-->
+<!--                                        <option value="116">Tỉnh Long An</option>-->
+<!--                                        <option value="117">Tỉnh Bà Rịa - Vũng Tàu</option>-->
+<!--                                        <option value="119">Tỉnh Nghệ An</option>-->
+<!--                                        <option value="120">Tỉnh Quảng Ngãi</option>-->
+<!--                                        <option value="121">Tỉnh Bình Định</option>-->
+<!--                                        <option value="122">Tỉnh Kiên Giang</option>-->
+<!--                                        <option value="123">Tỉnh Hưng Yên</option>-->
+<!--                                        <option value="124">Tỉnh Quảng Nam</option>-->
+<!--                                        <option value="125">Tỉnh Bình Thuận</option>-->
+<!--                                        <option value="126">Tỉnh Thái Bình</option>-->
+<!--                                        <option value="127">Tỉnh Thanh Hóa</option>-->
+<!--                                        <option value="128">Tỉnh Khánh Hòa</option>-->
+<!--                                        <option value="129">Tỉnh Tây Ninh</option>-->
+<!--                                        <option value="131">Thành phố Cần Thơ</option>-->
+<!--                                        <option value="132">Tỉnh Bến Tre</option>-->
+<!--                                        <option value="133">Tỉnh Bạc Liêu</option>-->
+<!--                                        <option value="134">Tỉnh Yên Bái</option>-->
+<!--                                        <option value="135">Tỉnh Tiền Giang</option>-->
+<!--                                        <option value="137">Tỉnh Vĩnh Long</option>-->
+<!--                                        <option value="138">Tỉnh Đắk Lắk</option>-->
+<!--                                        <option value="139">Tỉnh Sóc Trăng</option>-->
+<!--                                        <option value="140">Thành phố Hồ Chí Minh</option>-->
+<!--                                        <option value="141">Tỉnh Điện Biên</option>-->
+<!--                                        <option value="142">Tỉnh Đắk Nông</option>-->
+<!--                                        <option value="143">Tỉnh Hậu Giang</option>-->
+<!--                                        <option value="144">Hà Nội cũ</option>-->
+<!--                                        <option value="145">Hà Tây cũ</option>-->
+<!--                                        <option value="146">Hải Hưng</option>-->
+<!--                                        <option value="147">Hà Bắc</option>-->
+<!--                                        <option value="148">Sông Bé</option>-->
+<!--                                        <option value="149">Nam Hà</option>-->
+<!--                                        <option value="150">Hồng Kông</option>-->
+<!--                                        <option value="151">Liên bang Nga</option>-->
+<!--                                        <option value="152">Hà Nam Ninh</option>-->
+<!--                                        <option value="153">Thái Lan</option>-->
+<!--                                        <option value="154">Bộ quốc phòng</option>-->
+<!--                                        <option value="155">Malaysia</option>-->
+<!--                                        <option value="156">Tỉnh Hải Hưng</option>-->
+<!--                                        <option value="157">Thuận Hải</option>-->
+<!--                                        <option value="158">Cộng Hòa Bê-la-rút</option>-->
+<!--                                        <option value="159">Cộng hòa Liên bang Đức</option>-->
+<!--                                        <option value="160">Đài Loan</option>-->
+<!--                                        <option value="161">Campuchia</option>-->
+<!--                                    </select>-->
+
+
+                                </div>
+                            </div>
+                            <div class="nav-container__element-nav-1--element">
+                                <span class="nav-container__element-nav-1--element-span">Huyện/ Quận</span>
+                                <div  class="nav-container__element-nav-1--element-div">
+                                    <input type="text" class="nav-container__element-nav-1--element-div-input" th:field="*{studentId.huyenquan}" required>
+
+                                </div>
+                            </div>
+                            <div class="nav-container__element-nav-1--element">
+                                <span class="nav-container__element-nav-1--element-span">Xã/ Phường </span>
+                                <div  class="nav-container__element-nav-1--element-div-phuong">
+                                    <!-- <select class="nav-container__element-nav-1--element-div-input" placeholder="Chọn Xã">
+                                        <option value="">Chọn Xã</option>
+                                        <option value="1">Xã Bình Dương</option>
+                                        <option value="2">Xã Bình Giang</option>
+                                        <option value="3">Xã Bình Nguyên</option>
+                                        <option value="4">Xã Bình Phục</option>
+                                        <option value="5">Xã Bình Triều</option>
+                                        <option value="6">Xã Bình Đào</option>
+                                        <option value="7">Xã Bình Minh</option>
+                                        <option value="8">Xã Bình Lãnh</option>
+                                        <option value="9">Xã Bình Trị</option>
+                                        <option value="10">Xã Bình Định Bắc</option>
+                                        <option value="11">Xã Bình Định Nam</option>
+                                        <option value="12">Xã Bình Quý</option>
+                                        <option value="13">Xã Bình Phú</option>
+                                        <option value="14">Xã Bình Chánh</option>
+                                        <option value="15">Xã Bình Tú</option>
+                                        <option value="16">Xã Bình Sa</option>
+                                        <option value="17">Xã Bình Hải</option>
+                                        <option value="18">Xã Bình Quế</option>
+                                        <option value="19">Xã Bình An</option>
+                                        <option value="20">Xã Bình Trung</option>
+                                        <option value="21">Xã Bình Nam</option>
+                                    </select> -->
+                                    <input type="text" class="nav-container__element-nav-1--element-div-input"  th:field="*{studentId.xa_phuong}" required>
+
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+    var headerHome = document.querySelector(".header-home__3");
+    var container = document.querySelector(".contanier");
+    headerHome.addEventListener("click", function () {
+        var dropdownElement = document.querySelector(".header-home__3--dropdown-element");
+
+        // Kiểm tra trạng thái hiển thị của dropdown và thay đổi nó
+        if (dropdownElement.style.display === "block") {
+            dropdownElement.style.display = "none";
+        } else {
+            dropdownElement.style.display = "block";
+        }
+    });
+    container.addEventListener("click", function () {
+        dropdownElement.style.display = "none";
+    });
+
+});
+
+</script>
+</body>
