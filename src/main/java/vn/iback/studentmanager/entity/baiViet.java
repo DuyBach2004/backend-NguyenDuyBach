@@ -1,6 +1,7 @@
 package vn.iback.studentmanager.entity;
 
 import jakarta.persistence.*;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Blob;
 import java.sql.Timestamp;
@@ -26,7 +27,7 @@ public class baiViet {
     private int haha;
     @Column(name = "dislike")
     private int dislike;
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.REFRESH})
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.REMOVE})
     @JoinColumn(name = "username")
     private user user;
     @Column(name = "thoigianbinhluan")

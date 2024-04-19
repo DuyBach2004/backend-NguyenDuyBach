@@ -43,7 +43,7 @@ public class phanHoiServiceImpl implements phanHoiService {
 
     @Override
     public void deleteById(int id) {
-
+        phanHoiResponsitory.deleteById(id);
     }
 
     @Override

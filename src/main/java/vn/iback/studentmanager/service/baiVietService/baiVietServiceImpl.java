@@ -2,6 +2,7 @@ package vn.iback.studentmanager.service.baiVietService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import vn.iback.studentmanager.dao.BaivietResponsitory;
 import vn.iback.studentmanager.entity.baiViet;
 
@@ -40,6 +41,7 @@ public class baiVietServiceImpl implements baiVietService {
     }
 
     @Override
+    @Transactional
     public void deleteById(int id) {
         baivietResponsitory.deleteById(id);
     }

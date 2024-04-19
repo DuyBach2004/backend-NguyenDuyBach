@@ -50,6 +50,6 @@ public class binhluanServiceImpl implements binhluanService {
 
     @Override
     public void deleteById(int id) {
-
+        binhluanResponsitory.deleteById(id);
     }
 }

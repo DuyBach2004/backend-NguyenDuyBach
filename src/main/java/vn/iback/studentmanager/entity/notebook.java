@@ -1,9 +1,11 @@
 package vn.iback.studentmanager.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.sql.Date;
-import java.util.Collection;
 import java.util.List;
 
 @Entity
@@ -15,13 +17,17 @@ public class notebook {
     private int id;
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinColumn(name = "username")
+    @JsonManagedReference
     private user staff;
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "id_class")
+    @JsonBackReference
     private classSchool classSchool;
     @Column(name = "teaching_day")
     private Date teachingDay;
     @OneToMany(mappedBy = "notebook", cascade = CascadeType.REFRESH, orphanRemoval = true)
+    @Column(name = "diem")
+    @JsonIgnore
     private List<diem> diems;
 
 
@@ -44,19 +50,9 @@ public class notebook {
         this.id = id;
     }
 
-
-    public List<diem> getDiems() {
-        return diems;
-    }
-
-    public void setDiems(List<diem> diems) {
-        this.diems = diems;
-    }
-
     public user getStaff() {
         return staff;
     }
-
 
     public void setStaff(user staff) {
         this.staff = staff;
@@ -78,5 +74,11 @@ public class notebook {
         this.teachingDay = teachingDay;
     }
 
+    public List<diem> getDiems() {
+        return diems;
+    }
 
+    public void setDiems(List<diem> diems) {
+        this.diems = diems;
+    }
 }

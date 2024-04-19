@@ -1,10 +1,16 @@
 package vn.iback.studentmanager.entity;
 
 import jakarta.persistence.*;
+import lombok.Builder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.sql.Blob;
 import java.sql.Date;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
+
+@Builder
 @Entity
 @Table(name = "user")
 public class user {
@@ -57,6 +63,23 @@ public class user {
     public user() {
     }
 
+    public user(String username, String password, String firstname, String lastname) {
+        this.username = username;
+        this.password = password;
+        this.firstname = firstname;
+        this.lastname = lastname;
+    }
+
+    public static user createAdmin(PasswordEncoder passwordEncoder, roles role) {
+        user user = new user();
+        Set<roles> roles = new HashSet<>();
+        user.setUsername("admin");
+        user.setPassword(passwordEncoder.encode("admin"));
+        roles.add(role);
+        user.setRoles(roles);
+        // set các trường khác...
+        return user;
+    }
 
     public user(String username, String password, student studentId, parents parentsId, vn.iback.studentmanager.entity.khoa khoa, vn.iback.studentmanager.entity.lop lop, String firstname, String lastname, String location, String email, vn.iback.studentmanager.entity.specialization specialization, String avatar, Collection<vn.iback.studentmanager.entity.roles> roles, boolean trangThaiXacThuc, String maXacThuc, Date thoiGianHieuLucCuaMaXacThuc) {
         this.username = username;

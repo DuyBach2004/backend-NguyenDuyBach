@@ -13,12 +13,12 @@ public class phanHoi {
     private int idPhanhoi;
     @Column(name="content")
     private String content;
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.REFRESH})
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.REMOVE})
     @JoinColumn(name = "id_binhluan")
     private binhluan binhluan;
     @Column(name = "like1")
     private int like;
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.REFRESH})
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.REMOVE})
     @JoinColumn(name = "username")
     private user user;
     @Column(name = "thoigianphanhoi")

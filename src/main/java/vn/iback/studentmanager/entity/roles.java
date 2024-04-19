@@ -2,6 +2,9 @@ package vn.iback.studentmanager.entity;
 
 import jakarta.persistence.*;
 
+import java.security.Permission;
+import java.util.Set;
+
 @Entity
 @Table(name="roles")
 public class roles {
@@ -10,7 +13,8 @@ public class roles {
     private int id;
     @Column(name = "name")
     private String name;
-
+    @ManyToMany
+    Set<permission> permissions;
     public roles() {
     }
 
@@ -33,6 +37,14 @@ public class roles {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Set<permission> getPermissions() {
+        return permissions;
+    }
+
+    public void setPermissions(Set<permission> permissions) {
+        this.permissions = permissions;
     }
 
     @Override
