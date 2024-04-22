@@ -75,4 +75,16 @@ public class postDTO {
     public void setId(int id) {
         this.id = id;
     }
+
+    @Override
+    public String toString() {
+        return "postDTO{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", image='" + image + '\'' +
+                ", like=" + like +
+                ", username='" + username + '\'' +
+                ", thoigianbinhluan='" + thoigianbinhluan + '\'' +
+                '}';
+    }
 }

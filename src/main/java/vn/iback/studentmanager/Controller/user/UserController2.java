@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.MailSender;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -39,49 +40,33 @@ import java.util.*;
 public class UserController2 {
     private static final Logger log = LoggerFactory.getLogger(user.class);
     private Userservice userservice;
-    private vn.iback.studentmanager.service.studentService studentService;
-    private vn.iback.studentmanager.service.khoaService.khoaService khoaService;
-    private vn.iback.studentmanager.service.lopSevice.lopService lopService;
     private RoleRespository roleRespository;
     private MailService mailService;
-    private MailSender mailSender;
-    private vn.iback.studentmanager.service.specializationService specializationService;
     private vn.iback.studentmanager.service.baiVietService.baiVietService baiVietService;
     private vn.iback.studentmanager.service.imageService.imageService imageService;
     private vn.iback.studentmanager.service.binhluanService.binhluanService binhluanService;
     private vn.iback.studentmanager.service.phanHoiService.phanHoiService phanHoiService;
-    private userPostService userPostService;
-    private userBinhLuanService userBinhLuanService;
-    private userPhanHoiService userPhanHoiService;
     private nootebookService nootebookService;
-    private classService classService;
     private diemService diemService;
     private StudentIntoNoteBookService studentIntoNoteBookService;
     private AuthenticationService authenticationService;
 
-    @Autowired
-    public UserController2(Userservice userservice, vn.iback.studentmanager.service.studentService studentService, vn.iback.studentmanager.service.khoaService.khoaService khoaService, vn.iback.studentmanager.service.lopSevice.lopService lopService, RoleRespository roleRespository, MailService mailService, MailSender mailSender, vn.iback.studentmanager.service.specializationService specializationService, vn.iback.studentmanager.service.baiVietService.baiVietService baiVietService, vn.iback.studentmanager.service.imageService.imageService imageService, vn.iback.studentmanager.service.binhluanService.binhluanService binhluanService, vn.iback.studentmanager.service.phanHoiService.phanHoiService phanHoiService, vn.iback.studentmanager.service.userPostService.userPostService userPostService, vn.iback.studentmanager.service.userBinhLuanService.userBinhLuanService userBinhLuanService, vn.iback.studentmanager.service.userPhanHoiService.userPhanHoiService userPhanHoiService, vn.iback.studentmanager.service.nootebookService nootebookService, vn.iback.studentmanager.service.classService classService, vn.iback.studentmanager.service.diemService.diemService diemService, StudentIntoNoteBookService studentIntoNoteBookService, AuthenticationService authenticationService) {
+    public UserController2(Userservice userservice, RoleRespository roleRespository, MailService mailService, vn.iback.studentmanager.service.baiVietService.baiVietService baiVietService, vn.iback.studentmanager.service.imageService.imageService imageService, vn.iback.studentmanager.service.binhluanService.binhluanService binhluanService, vn.iback.studentmanager.service.phanHoiService.phanHoiService phanHoiService, vn.iback.studentmanager.service.nootebookService nootebookService, vn.iback.studentmanager.service.diemService.diemService diemService, StudentIntoNoteBookService studentIntoNoteBookService, AuthenticationService authenticationService) {
         this.userservice = userservice;
-        this.studentService = studentService;
-        this.khoaService = khoaService;
-        this.lopService = lopService;
         this.roleRespository = roleRespository;
         this.mailService = mailService;
-        this.mailSender = mailSender;
-        this.specializationService = specializationService;
         this.baiVietService = baiVietService;
         this.imageService = imageService;
         this.binhluanService = binhluanService;
         this.phanHoiService = phanHoiService;
-        this.userPostService = userPostService;
-        this.userBinhLuanService = userBinhLuanService;
-        this.userPhanHoiService = userPhanHoiService;
         this.nootebookService = nootebookService;
-        this.classService = classService;
         this.diemService = diemService;
         this.studentIntoNoteBookService = studentIntoNoteBookService;
         this.authenticationService = authenticationService;
     }
+
+    @Autowired
+
     //    @GetMapping("/update")
 //    public String updateStudent(@RequestParam("username") String username, Model model){
 //        user user=userservice.findByUsername(username);
@@ -166,35 +151,13 @@ public ResponseEntity<Object> showListUserRestApi() {
     @GetMapping("/post/username")
     public ResponseEntity<Object> showPostOfUse(@RequestParam("username") String username){
         try {
-            user user=userservice.findByUsername(username);
-            if (user != null){
-                List<baiViet> baiVietList =baiVietService.findAllBaiViet();
-                List<postDTO> postDTOS=new ArrayList<>();
-                for (baiViet baiViet:baiVietList) {
-                    if (baiViet.getUser()!= null) {
-                        if (baiViet.getUser().getUsername().equals(username)) {
-                            postDTO postDTO = new postDTO();
-                            if (baiViet.getImage() != null) {
-                                postDTO.setImage(baiViet.getImage());
-                            }
-                            postDTO.setLike(baiViet.getLike());
-                            String time = String.valueOf(baiViet.getThoigianbinhluan());
-                            postDTO.setThoigianbinhluan(time);
-                            postDTO.setId(baiViet.getId());
-                            if (baiViet.getContent() != null) {
-                                postDTO.setTitle(baiViet.getContent());
-                            }
-                            if (baiViet.getUser() != null) {
-                                postDTO.setUsername(baiViet.getUser().getUsername());
-                            }
-                            postDTOS.add(postDTO);
-                        }
-                    }
-                }
-                return new ResponseEntity<>(postDTOS, HttpStatus.OK);
-            }else {
-                return new ResponseEntity<>("User Không tồn tại ", HttpStatus.INTERNAL_SERVER_ERROR);
-            }
+            log.info(username+"----------");
+            List<postDTO> postDTOS=baiVietService.findBaiVietByUser(username);
+
+                return new ResponseEntity<>(postDTOS.get(0).getTitle(), HttpStatus.OK);
+
+        }catch (UsernameNotFoundException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }catch (Exception e){
             return new ResponseEntity<>("Error fetching user data: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -471,8 +434,10 @@ public ResponseEntity<Object> showListUserRestApi() {
                 // After processing the data, you can return a response:
                 return new ResponseEntity<>("Post created successfully", HttpStatus.CREATED);
             }else {
-                return new ResponseEntity<>("username không chính xác",HttpStatus.INTERNAL_SERVER_ERROR);
+                return new ResponseEntity<>("username không chính xác",HttpStatus.NOT_FOUND);
             }
+        } catch (UsernameNotFoundException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         } catch (Exception e) {
             // Handle the exception here (e.g., log it or return an error response)
             return new ResponseEntity<>("Error creating post: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);

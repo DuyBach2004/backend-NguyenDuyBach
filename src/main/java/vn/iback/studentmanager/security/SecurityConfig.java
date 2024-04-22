@@ -73,7 +73,7 @@ public class SecurityConfig implements WebMvcConfigurer {
                         .requestMatchers("/user").hasAuthority("ROLE_ROLE_ADMIN")
                         .requestMatchers(HttpMethod.POST,"/user/comment").hasAuthority("ROLE_ROLE_USER")
                         .requestMatchers(HttpMethod.POST,"/user/reply").hasAuthority("ROLE_ROLE_USER")
-                        .requestMatchers(HttpMethod.POST,"/user/post").permitAll()
+                        .requestMatchers("/user/post").permitAll()
                         .requestMatchers("/user/role").hasAuthority("ROLE_ROLE_ADMIN")
                         .requestMatchers("/user/lophocphandadangki").hasAuthority("ROLE_ROLE_ADMIN")
                         .requestMatchers("/thoi-gian-hoc/**").hasAuthority("ROLE_ROLE_ADMIN")
